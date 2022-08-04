@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "janisoteps",
     "name": "qrunch-mobile-admin",
     "slug": "qrunch-mobile-admin",
     "version": "1.0.0",

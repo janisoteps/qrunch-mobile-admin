@@ -1,14 +1,16 @@
 import {useEffect, useState} from "react";
 import Constants from 'expo-constants';
 import axios from "axios";
-// import {UseUserSettings, GetUserData, GetUserRestaurants} from "./interfaces/useUserSettings";
-// import baseHeaders from "../constants/baseHeaders";
-// import {RestaurantSettings} from "../interfaces/appSettings";
-// import {User} from "../components/user/interfaces/user";
 import {Dimensions} from "react-native";
 import {GetUserData, GetUserRestaurants, QrunchUser} from "../../interfaces/qrunchUser";
 import {RestaurantSettings} from "../../interfaces/appSettings";
 import baseHeaders from "../../constants/requestHeaders";
+import {UpdateDict} from "../../interfaces/general";
+import updateUserOneSetting from "../user/updateUserOneSetting";
+
+export interface ChangeUserSetting {
+    (updateDict: UpdateDict): void
+}
 
 export interface UseUserSettings {
     (user: string | null): {
@@ -19,7 +21,9 @@ export interface UseUserSettings {
         restaurantsLoading: boolean,
         reloadUserData: () => void,
         screenWidth: number,
-        isMobile: boolean
+        isMobile: boolean,
+        changeUserSetting: ChangeUserSetting,
+        userErrorMessage: string | null
     }
 }
 
@@ -33,6 +37,7 @@ const useUserSettings: UseUserSettings = (authToken) => {
     const [restaurantsLoading, setRestaurantsLoading] = useState<boolean>(true);
     const [screenWidth, setScreenWidth] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
+    const [userErrorMessage, setUserErrorMessage] = useState<string | null>(null);
 
     useEffect(() => {
         if (!!authToken && authToken !== 'null') {
@@ -111,6 +116,19 @@ const useUserSettings: UseUserSettings = (authToken) => {
         }
     }
 
+    const changeUserSetting: ChangeUserSetting = (updateDict) => {
+        if (!!authToken) {
+            updateUserOneSetting(authToken, updateDict).then(updateResult => {
+                if (updateResult.success) {
+                    setUserErrorMessage(null);
+                    reloadUserData();
+                } else {
+                    setUserErrorMessage(updateResult.error);
+                }
+            })
+        }
+    }
+
     return {
         userType,
         firstName,
@@ -119,7 +137,9 @@ const useUserSettings: UseUserSettings = (authToken) => {
         restaurantsLoading,
         reloadUserData,
         screenWidth,
-        isMobile
+        isMobile,
+        changeUserSetting,
+        userErrorMessage
     }
 }
 

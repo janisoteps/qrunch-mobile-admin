@@ -1,7 +1,6 @@
 import {useEffect, useRef, useState} from "react";
 import * as Notifications from 'expo-notifications';
 import {QrunchUser} from "../../interfaces/qrunchUser";
-import {LocationDict} from "../../interfaces/appSettings";
 import getPushToken from "../../components/notifications/getPushToken";
 import {ReValidatePushToken} from "../../interfaces/notifications";
 import validatePushTokens from "../../components/notifications/validatePushTokens";
@@ -21,7 +20,6 @@ export interface UseNotifications {
         authToken: string | null,
         userData: QrunchUser | null | undefined,
         usedRestaurantId: string | null | undefined,
-        selectedLocation: LocationDict | null | undefined
     ): {
         initialRoute: ScreenTypesList,
         reValidatePushToken: ReValidatePushToken
@@ -34,7 +32,6 @@ const useNotifications: UseNotifications = (
     authToken,
     userData,
     usedRestaurantId,
-    selectedLocation
 ) => {
     const [expoPushToken, setExpoPushToken] = useState<string | null | undefined>(null);
     const [notification, setNotification] = useState<Notifications.Notification>();
@@ -47,15 +44,17 @@ const useNotifications: UseNotifications = (
         getPushToken().then(token => setExpoPushToken(token));
 
         notificationListener.current = Notifications.addNotificationReceivedListener(notificationDict => {
+            const initialRoute = getInitialRoute(notificationDict);
             setNotification(notificationDict);
-            setInitialRoute('Orders');
-            navigation.navigate('Orders', {});
+            setInitialRoute(initialRoute);
+            navigation.navigate(initialRoute, {});
         });
         responseListener.current = Notifications.addNotificationResponseReceivedListener(
             (response) => {
+                const initialRoute = getInitialRoute(response.notification);
                 setNotification(response.notification);
-                setInitialRoute('Orders');
-                navigation.navigate('Orders', {});
+                setInitialRoute(initialRoute);
+                navigation.navigate(initialRoute, {});
             }
         );
 
@@ -68,39 +67,51 @@ const useNotifications: UseNotifications = (
     }, []);
 
     useEffect(() => {
-        if (authToken && expoPushToken && userData && usedRestaurantId && selectedLocation && !checking) {
+        if (authToken && expoPushToken && userData && usedRestaurantId && !checking) {
             setChecking(true);
             validatePushTokens(
                 authToken,
-                userData._id,
+                userData.userEmail,
                 usedRestaurantId,
-                selectedLocation.locationId,
                 expoPushToken
             ).then(() => {
                 setChecking(false);
             });
         }
-    },[expoPushToken, userData, usedRestaurantId, selectedLocation]);
+    },[expoPushToken, userData, usedRestaurantId]);
 
     const reValidatePushToken: ReValidatePushToken = (
         user,
         accessToken,
         restId,
-        locId
     ) => {
         if (accessToken && user && expoPushToken) {
-            if (restId && locId) {
+            if (!!restId) {
                 setChecking(true);
                 validatePushTokens(
                     accessToken,
-                    user._id,
+                    user.userEmail,
                     restId,
-                    locId,
                     expoPushToken
                 ).then(() => {
                     setChecking(false);
                 });
             }
+        }
+    }
+
+    const getInitialRoute = (notificationDict: any) => {
+        const notifType = notificationDict?.request?.content?.data?.notifType;
+
+        switch (notifType) {
+            case 'order':
+                return 'Orders'
+            case 'serviceRequest':
+                return 'Services'
+            case 'serviceChat':
+                return 'Services'
+            default:
+                return 'Orders'
         }
     }
 

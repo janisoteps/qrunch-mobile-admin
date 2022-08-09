@@ -3,7 +3,7 @@ import {useTheme} from "@react-navigation/native";
 import {useContext, useState} from "react";
 import AuthContext from "../components/auth/authContext";
 import SettingsContext from "../components/settings/settingsContext";
-import {SafeAreaView, ScrollView} from "react-native";
+import {SafeAreaView, ScrollView, Text} from "react-native";
 // import Layout from "../constants/layout";
 import * as React from "react";
 // import useRestaurantOrders from "../hooks/useRestaurantOrders";
@@ -133,6 +133,15 @@ export default function OrdersScreen({route, navigation}: RootTabScreenProps<'Or
                     padding: 0
                 }}
             >
+                <Text
+                    style={{
+                        fontWeight: '500',
+                        fontSize: 17,
+                        margin: 20
+                    }}
+                >
+                    Orders
+                </Text>
                 {/*<RestaurantOrdersList*/}
                 {/*    orderList={orderList}*/}
                 {/*    setModalOrderData={setModalOrderData}*/}

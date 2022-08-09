@@ -20,7 +20,7 @@ export type RootTabParamList = {
     RelatePosItems: undefined;
     Onboarding: undefined;
     LocationPick: undefined;
-    MenuEdit: undefined;
+    Services: undefined;
 };
 
 export type RootStackParamList = {
@@ -35,12 +35,17 @@ export type RootStackParamList = {
     RelatePosItems: undefined;
     Onboarding: undefined;
     LocationPick: undefined;
-    MenuEdit: undefined;
+    Services: undefined;
 };
 
-export type ScreenTypesList = "Root" | "Modal" | "NotFound" | "Auth" | "LogOut" | "Home" | "Orders" | "Settings" | "RelatePosItems" | "Onboarding" | "LocationPick" | "MenuEdit";
+export type ScreenTypesList = "Root" | "Modal" | "NotFound" | "Auth" | "LogOut" | "Home" | "Orders" | "Settings" | "RelatePosItems" | "Onboarding" | "LocationPick" | "Services";
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
     BottomTabScreenProps<RootTabParamList, Screen>,
     NativeStackScreenProps<RootStackParamList>
 >;
+
+export interface UpdateDict {
+    key: string,
+    newValue: any
+}

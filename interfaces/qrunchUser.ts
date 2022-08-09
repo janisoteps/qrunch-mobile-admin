@@ -1,3 +1,6 @@
+import {LocationRef} from "./appSettings";
+import {ServiceRef} from "./service";
+
 export interface QrunchUser {
     _id: any,
     userName: string,
@@ -6,8 +9,18 @@ export interface QrunchUser {
     type: string,
     restaurants: string[],
     profile?: UserProfile | null,
-    userFireBaseData?: UserFireBaseData
+    userFireBaseData?: UserFireBaseData,
+    appUserOrderLocations?: AppUserOrderLocations,
+    appUserServiceLocations?: AppUserServiceLocations,
+    appUserServiceCategories?: AppUserServiceCategories,
+    userDisabled?: boolean
 }
+
+export type AppUserOrderLocations = LocationRef[];
+
+export type AppUserServiceLocations = LocationRef[];
+
+export type AppUserServiceCategories = ServiceRef[];
 
 export interface UserFireBaseData {
     uid: string,

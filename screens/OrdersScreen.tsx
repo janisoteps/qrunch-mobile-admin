@@ -1,91 +1,88 @@
-// import {RootTabScreenProps} from "../types";
 import {useTheme} from "@react-navigation/native";
 import {useContext, useState} from "react";
 import AuthContext from "../components/auth/authContext";
 import SettingsContext from "../components/settings/settingsContext";
 import {SafeAreaView, ScrollView, Text} from "react-native";
-// import Layout from "../constants/layout";
 import * as React from "react";
-// import useRestaurantOrders from "../hooks/useRestaurantOrders";
-// import RestaurantOrdersList from "../components/order/RestaurantOrdersList";
-// import OrderDetailsModal from "../components/order/details/OrderDetailsModal";
-// import {ChangeOrderEta, ChangeOrderStatus, Order, SetModalOrderData} from "../components/order/interfaces/order";
-// import useQrunchSockets from "../hooks/useQrunchSockets";
 import {Button} from "react-native-paper";
 import {RootTabScreenProps} from "../interfaces/general";
-import {Order} from "../interfaces/order";
+import {ChangeOrderEta, ChangeOrderStatus, Order, SetModalOrderData} from "../interfaces/order";
 import Layout from "../constants/layout";
+import RestaurantOrdersList from "../components/order/RestaurantOrdersList";
+import useRestaurantOrders from "../utils/hooks/useRestaurantOrders";
+import useQrunchSockets from "../utils/hooks/useQrunchSockets";
+import OrderDetailsModal from "../components/order/details/OrderDetailsModal";
 
 
 export default function OrdersScreen({route, navigation}: RootTabScreenProps<'Orders'>) {
     const {colors} = useTheme();
     const authContext = useContext(AuthContext);
     const settingsContext = useContext(SettingsContext);
-    // const {
-    //     getRestaurantOrders,
-    //     loadNewOrder,
-    //     reloadOrders,
-    //     updateOrderState,
-    //     updateOrderProperty,
-    //     orderList,
-    //     updateOrderList,
-    //     pageCount,
-    //     viewOrderHistory,
-    //     toggleOrderHistory,
-    //     stateIterator
-    // } = useRestaurantOrders(authContext.token, settingsContext.restaurantData, settingsContext.selectedLocation);
+    const {
+        getRestaurantOrders,
+        loadNewOrder,
+        reloadOrders,
+        updateOrderState,
+        updateOrderProperty,
+        orderList,
+        updateOrderList,
+        pageCount,
+        viewOrderHistory,
+        toggleOrderHistory,
+        stateIterator
+    } = useRestaurantOrders(authContext.authToken, settingsContext.restaurantData, settingsContext.userData);
 
-    // const {
-    //     newOrders,
-    //     setNewOrders,
-    //     sendConfirm,
-    //     socketsUpdateEta,
-    //     socketsUpdateStatus
-    // } = useQrunchSockets({
-    //     restaurantId: settingsContext.usedRestaurantId,
-    //     enabled: true,
-    //     onConnected: () => {
-    //         console.log('sockets connected');
-    //     },
-    //     loadNewOrder
-    // });
+    const {
+        newOrders,
+        setNewOrders,
+        sendConfirm,
+        socketsUpdateEta,
+        socketsUpdateStatus
+    } = useQrunchSockets({
+        restaurantId: settingsContext.usedRestaurantId,
+        enabled: true,
+        onConnected: () => {
+            console.log('sockets connected');
+        },
+        loadNewOrder
+    });
 
     const [modalOrderDict, setModalOrderDict] = useState<null | Order>(null);
     const [stateItx, setStateItx] = useState('');
     const [isRefreshLoading, setIsRefreshLoading] = useState<boolean>(false);
 
-    // const setModalOrderData: SetModalOrderData = (orderData) => {
-    //     setModalOrderDict(orderData);
-    // }
+    const setModalOrderData: SetModalOrderData = (orderData) => {
+        setModalOrderDict(orderData);
+    };
 
-    // const changeOrderStatus: ChangeOrderStatus = async (orderId, newStatus) => {
-    //     const updatedOrder = await updateOrderProperty(orderId, 'orderState', newStatus);
-    //
-    //     if (updatedOrder) {
-    //         setModalOrderDict(updatedOrder);
-    //         setStateItx(`${Math.random()}`);
-    //     } else {
-    //         if (newStatus === 'completed' || newStatus === 'canceled') {
-    //             let updatedOrder = modalOrderDict;
-    //             if (updatedOrder) {
-    //                 updatedOrder.orderState = newStatus;
-    //                 setModalOrderDict(updatedOrder);
-    //                 setStateItx(`${Math.random()}`);
-    //             }
-    //         }
-    //     }
-    //     socketsUpdateStatus(orderId, newStatus);
-    // }
+    const changeOrderStatus: ChangeOrderStatus = async (orderId, newStatus) => {
+        const updatedOrder = await updateOrderProperty(orderId, 'orderState', newStatus);
 
-    // const changeOrderEta: ChangeOrderEta = async (orderId, newEta) => {
-    //     const updatedOrder = await updateOrderProperty(orderId, 'eta', newEta);
-    //
-    //     if (updatedOrder) {
-    //         setModalOrderDict(updatedOrder);
-    //         setStateItx(`${Math.random()}`);
-    //         socketsUpdateEta(orderId, newEta);
-    //     }
-    // }
+        if (updatedOrder) {
+            setModalOrderDict(updatedOrder);
+            setStateItx(`${Math.random()}`);
+        } else {
+            if (newStatus === 'completed' || newStatus === 'canceled') {
+                let updatedOrder = modalOrderDict;
+                if (updatedOrder) {
+                    updatedOrder.orderState = newStatus;
+                    setModalOrderDict(updatedOrder);
+                    setStateItx(`${Math.random()}`);
+                }
+            }
+        }
+        socketsUpdateStatus(orderId, newStatus);
+    }
+
+    const changeOrderEta: ChangeOrderEta = async (orderId, newEta) => {
+        const updatedOrder = await updateOrderProperty(orderId, 'eta', newEta);
+
+        if (updatedOrder) {
+            setModalOrderDict(updatedOrder);
+            setStateItx(`${Math.random()}`);
+            socketsUpdateEta(orderId, newEta);
+        }
+    }
 
     return (
         <SafeAreaView
@@ -103,13 +100,13 @@ export default function OrdersScreen({route, navigation}: RootTabScreenProps<'Or
                 mode="contained"
                 loading={isRefreshLoading}
                 onPress={() => {
-                    // if (reloadOrders) {
-                    //     setIsRefreshLoading(true);
-                    //     reloadOrders();
-                    //     setTimeout(() => {
-                    //         setIsRefreshLoading(false);
-                    //     }, 500);
-                    // }
+                    if (reloadOrders) {
+                        setIsRefreshLoading(true);
+                        reloadOrders();
+                        setTimeout(() => {
+                            setIsRefreshLoading(false);
+                        }, 500);
+                    }
                 }}
                 style={{
                     position: 'absolute',
@@ -133,27 +130,18 @@ export default function OrdersScreen({route, navigation}: RootTabScreenProps<'Or
                     padding: 0
                 }}
             >
-                <Text
-                    style={{
-                        fontWeight: '500',
-                        fontSize: 17,
-                        margin: 20
-                    }}
-                >
-                    Orders
-                </Text>
-                {/*<RestaurantOrdersList*/}
-                {/*    orderList={orderList}*/}
-                {/*    setModalOrderData={setModalOrderData}*/}
-                {/*/>*/}
+                <RestaurantOrdersList
+                    orderList={orderList}
+                    setModalOrderData={setModalOrderData}
+                />
 
-                {/*<OrderDetailsModal*/}
-                {/*    orderDict={modalOrderDict}*/}
-                {/*    setModalOrderData={setModalOrderData}*/}
-                {/*    changeOrderStatus={changeOrderStatus}*/}
-                {/*    changeOrderEta={changeOrderEta}*/}
-                {/*    reloadOrders={reloadOrders}*/}
-                {/*/>*/}
+                <OrderDetailsModal
+                    orderDict={modalOrderDict}
+                    setModalOrderData={setModalOrderData}
+                    changeOrderStatus={changeOrderStatus}
+                    changeOrderEta={changeOrderEta}
+                    reloadOrders={reloadOrders}
+                />
             </ScrollView>
         </SafeAreaView>
     )

@@ -1,35 +1,37 @@
-import getStoredUserTokens from "./getStoredUserTokens";
+import getStoredUserToken from "./getStoredUserToken";
 import storePushToken from "./storePushToken";
 
 export interface ValidatePushTokens {
     (
         authToken: string,
-        userId: string,
+        userEmail: string,
         restaurantId: string,
-        selectedLocation: string,
         pushToken: string
     ): Promise<void>
 }
 
 const validatePushTokens: ValidatePushTokens = async (
     authToken,
-    userId,
+    userEmail,
     restaurantId,
-    selectedLocation,
     pushToken
 ) => {
-    const existingUserTokens = await getStoredUserTokens(userId, restaurantId);
+    const existingUserToken = await getStoredUserToken(authToken, restaurantId);
 
-    if (existingUserTokens && existingUserTokens.length > 0) {
-        const existingDeviceToken = existingUserTokens.find(tokenDict => {
-            return tokenDict.expoPushToken === pushToken
-        });
+    console.log('existingUserToken')
+    console.log(existingUserToken)
 
-        if (!existingDeviceToken || existingDeviceToken.locationId !== selectedLocation) {
-            await storePushToken(authToken, pushToken, restaurantId, selectedLocation);
-        }
+    console.log('userEmail')
+    console.log(userEmail)
+
+    if (!existingUserToken) {
+        console.log('storing a new token')
+        await storePushToken(authToken, pushToken, restaurantId);
     } else {
-        await storePushToken(authToken, pushToken, restaurantId, selectedLocation);
+        if (existingUserToken?.userEmail !== userEmail) {
+            console.log('WRONG EMAIL storing a new token')
+            await storePushToken(authToken, pushToken, restaurantId);
+        }
     }
 }
 

@@ -40,6 +40,9 @@ export default {
         web: {
             favicon: "./assets/images/favicon.png"
         },
+        "notification":{
+            "icon":"./assets/images/adaptive-icon.png"
+        },
         "extra": {
             firebaseApiKey: process.env.FIREBASE_API_KEY,
             firebaseAuthDomain: process.env.FIREBASE_AUTH_DOMAIN,

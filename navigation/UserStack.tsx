@@ -13,6 +13,7 @@ import NotifContext from '../components/notifications/notifContext';
 import LocationPickScreen from "../screens/LocationPickScreen";
 import OrdersScreen from "../screens/OrdersScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import ServicesScreen from "../screens/ServicesScreens";
 
 interface UserStackProps {
     authProps: {
@@ -36,7 +37,6 @@ export default function UserStack({authProps, settings}: UserStackProps) {
         authProps.authToken,
         settings.userData,
         settings.usedRestaurantId,
-        settings.selectedLocation
     );
 
     return (
@@ -57,18 +57,18 @@ export default function UserStack({authProps, settings}: UserStackProps) {
                             header: (props) => <NavigationBar {...props} />,
                         }}
                     >
-                        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: true}} />
+                        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
                         <Stack.Screen
                             name="LogOut"
                             component={LogOutScreen}
                             options={{headerShown: true, title: 'Log Out'}}
                         />
-                        <Stack.Screen
-                            name="LocationPick"
-                            component={LocationPickScreen}
-                            options={{headerShown: true, title: 'Pick Location'}}
-                        />
                         <Stack.Screen name="Orders" component={OrdersScreen} options={{headerShown: true}} />
+                        <Stack.Screen
+                            name="Services"
+                            component={ServicesScreen}
+                            options={{headerShown: true, title: 'Service Requests'}}
+                        />
                         <Stack.Screen name="Settings" component={SettingsScreen} options={{headerShown: true}} />
                     </Stack.Navigator>
                 </NotifContext.Provider>

@@ -1,14 +1,12 @@
-// import {StorePushToken} from "./interfaces/notifications";
-// import baseHeaders from "../../constants/baseHeaders";
 import Constants from "expo-constants";
 import axios from "axios";
 import baseHeaders from "../../constants/requestHeaders";
 
 export interface StorePushToken {
-    (authToken: string, pushToken: string, restaurantId: string, locationId: string): Promise<boolean>
+    (authToken: string, pushToken: string, restaurantId: string): Promise<boolean>
 }
 
-const storePushToken: StorePushToken = async (authToken, pushToken, restaurantId, locationId) => {
+const storePushToken: StorePushToken = async (authToken, pushToken, restaurantId) => {
     const authHeader: string = `Bearer ${authToken}`;
     let reqHeaders = baseHeaders;
     reqHeaders['Authorization'] = authHeader;
@@ -22,7 +20,6 @@ const storePushToken: StorePushToken = async (authToken, pushToken, restaurantId
                 requestUrl,
                 {
                     restaurant_id: restaurantId,
-                    location_id: locationId,
                     push_token: pushToken
                 },
                 {

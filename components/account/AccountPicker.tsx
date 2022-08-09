@@ -23,13 +23,14 @@ const RestaurantList = (props: RestaurantListProps): React.ReactElement => {
 
     const selectRestaurant: SelectRestaurant = (restaurantId, restaurantLocations) => {
         if (!!settingsContext?.setUsedRestaurant) {
-            settingsContext.setUsedRestaurant(restaurantId).then(() => {
-                if (restaurantLocations && restaurantLocations.length > 0) {
-                    navigation.navigate('LocationPick');
-                } else {
-                    navigation.navigate('Orders');
-                }
-            });
+            // settingsContext.setUsedRestaurant(restaurantId).then(() => {
+            //     if (restaurantLocations && restaurantLocations.length > 0) {
+            //         navigation.navigate('LocationPick');
+            //     } else {
+            //         navigation.navigate('Orders');
+            //     }
+            // });
+            navigation.navigate('Orders');
         }
 
     }

@@ -4,7 +4,6 @@ import './config/firebase';
 import RootNavigation from "./navigation";
 import {Provider as PaperProvider} from 'react-native-paper';
 import {QrunchPaperTheme} from "./constants/colours";
-import useLocalSession from "./utils/hooks/useLocalSession";
 import useAuthentication from "./utils/hooks/useAuthentication";
 import useUserSettings from "./utils/hooks/useUserSettings";
 import useAccountSettings from "./utils/hooks/useAccountSettings";
@@ -12,15 +11,6 @@ import useAccountSettings from "./utils/hooks/useAccountSettings";
 
 export default function App() {
     const {user, authToken} = useAuthentication();
-    // const {
-    //     userToken,
-    //     userName,
-    //     userEmail,
-    //     lastValidated,
-    //     getUserToken,
-    //     storeUserData,
-    //     logUserOut
-    // } = useLocalSession();
 
     const {
         userType,
@@ -30,7 +20,9 @@ export default function App() {
         restaurantsLoading,
         reloadUserData,
         screenWidth,
-        isMobile
+        isMobile,
+        changeUserSetting,
+        userErrorMessage
     } = useUserSettings(authToken);
 
     const {
@@ -44,14 +36,6 @@ export default function App() {
         changeSelectedLocation,
         reloadRestaurantData
     } = useAccountSettings(authToken);
-
-    // useEffect(() => {
-    //     console.log('locations')
-    //     console.log(locations)
-    //
-    //     console.log('restaurantData')
-    //     console.log(restaurantData)
-    // }, [!!restaurantData])
 
     return (
         <PaperProvider theme={QrunchPaperTheme}>
@@ -78,7 +62,9 @@ export default function App() {
                         reloadRestaurantData,
                         reloadUserData,
                         screenWidth,
-                        isMobile
+                        isMobile,
+                        changeUserSetting,
+                        userErrorMessage
                     }}
                 />
             </ThemeProvider>

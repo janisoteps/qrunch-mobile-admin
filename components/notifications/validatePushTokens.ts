@@ -17,13 +17,7 @@ const validatePushTokens: ValidatePushTokens = async (
     pushToken
 ) => {
     const existingUserToken = await getStoredUserToken(authToken, restaurantId);
-
-    console.log('existingUserToken')
-    console.log(existingUserToken)
-
-    console.log('userEmail')
-    console.log(userEmail)
-
+    
     if (!existingUserToken) {
         console.log('storing a new token')
         await storePushToken(authToken, pushToken, restaurantId);

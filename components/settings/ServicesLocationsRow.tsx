@@ -66,7 +66,7 @@ export default function ServicesLocationsRow({locationDict}: ServicesLocationsRo
                 minWidth: 200
             }}>
                 <CheckBox
-                    title={locationName}
+                    title={`${locationName} (${locationDict.locationId})`}
                     checked={!!foundServiceLocation}
                     onPress={() => {handleSelectedLocationChange()}}
                 />

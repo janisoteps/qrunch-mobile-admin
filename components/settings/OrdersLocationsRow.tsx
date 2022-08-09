@@ -65,7 +65,7 @@ export default function OrdersLocationsRow({locationDict}: OrdersLocationsRowPro
                 minWidth: 200
             }}>
                 <CheckBox
-                    title={locationName}
+                    title={`${locationName} (${locationDict.locationId})`}
                     checked={!!foundOrdersLocation}
                     onPress={() => {handleSelectedLocationChange()}}
                 />

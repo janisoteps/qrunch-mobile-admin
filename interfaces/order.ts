@@ -112,3 +112,44 @@ export interface LoadOrderDict {
 export interface LoadPosOrderData {
     (posOrderId: string): void
 }
+
+export interface GetRestaurantOrders {
+    (
+        restaurantId: string,
+        authToken: string,
+        showHistory: boolean
+    ): Promise<Order[]>
+}
+
+export interface LoadNewOrder {
+    (orderEventDict: any): void
+}
+
+export interface ReloadOrders {
+    (): void
+}
+
+export interface UpdateOrderStateOpts {
+    orderId: string,
+    newStatus: string
+}
+
+export interface UpdateOrderState {
+    (opts: UpdateOrderStateOpts): Promise<boolean>
+}
+
+export interface UpdateOrderProperty {
+    (
+        orderId: string,
+        settingKey: string,
+        newValue: any
+    ): Promise<Order | null>
+}
+
+export interface UpdateOrderList {
+    (newOrderList: Order[]): void
+}
+
+export interface ToggleOrderHistory {
+    (newValue: boolean): void
+}

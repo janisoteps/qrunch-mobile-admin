@@ -14,3 +14,4 @@ export const qrunchLogo: string = require('./logo-icon-1024-72dpi.png');
 export const backIcon: string = require('./back.png');
 export const upArrow: string = require('./up-arrow.png');
 export const paymentIcon: string = require('./payment.png');
+export const settingsIcon: string = require('./settings.png');

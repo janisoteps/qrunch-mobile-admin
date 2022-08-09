@@ -3,11 +3,11 @@ import axios from "axios";
 import {PushTokenDict} from "../../interfaces/notifications";
 import baseHeaders from "../../constants/requestHeaders";
 
-export interface GetStoredUserTokens {
-    (authToken: string, restaurantId: string): Promise<PushTokenDict[]>
+export interface GetStoredUserToken {
+    (authToken: string, restaurantId: string): Promise<PushTokenDict>
 }
 
-const getStoredUserTokens: GetStoredUserTokens = async (authToken, restaurantId) => {
+const getStoredUserToken: GetStoredUserToken = async (authToken, restaurantId) => {
     const authHeader: string = `Bearer ${authToken}`;
     let reqHeaders = baseHeaders;
     reqHeaders['Authorization'] = authHeader;
@@ -21,8 +21,8 @@ const getStoredUserTokens: GetStoredUserTokens = async (authToken, restaurantId)
             headers: reqHeaders
         });
 
-        if (tokenRes && tokenRes.data && tokenRes.data.userTokens) {
-            return tokenRes.data.userToken
+        if (!!tokenRes && !!tokenRes.data && !!tokenRes.data.userTokenDoc) {
+            return tokenRes.data.userTokenDoc
         } else {
             return null
         }
@@ -31,4 +31,4 @@ const getStoredUserTokens: GetStoredUserTokens = async (authToken, restaurantId)
     }
 };
 
-export default getStoredUserTokens;
+export default getStoredUserToken;

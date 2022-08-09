@@ -8,15 +8,15 @@ import {AllImagesXface} from "../assets/images";
 import * as AllImages from "../assets/images";
 import Layout from "../constants/layout";
 import AccountPicker from "../components/account/AccountPicker";
+import {signOut} from "firebase/auth";
+import {fbAuth} from "../config/firebase";
+import {Button} from "react-native-elements";
 
 
 export default function HomeScreen() {
     const { user } = useAuthentication();
     const authContext = useContext(AuthContext);
     const settingsContext = useContext(SettingsContext);
-
-    const userName =  settingsContext.firstName
-        ? settingsContext.firstName : settingsContext.userData ? settingsContext.userData.userName : null;
 
     return (
         <View style={styles.container}>
@@ -65,6 +65,22 @@ export default function HomeScreen() {
                 >
                     <AccountPicker />
                 </ScrollView>
+
+                <Button
+                    title="Reload"
+                    style={styles.button}
+                    onPress={() => {
+                        if (!!settingsContext?.reloadUserData) {
+                            settingsContext.reloadUserData();
+                        }
+                    }}
+                />
+                <Button
+                    title="Sign out"
+                    style={styles.button}
+                    onPress={() => signOut(fbAuth)}
+                />
+                <View style={styles.separator} />
             </SafeAreaView>
         </View>
     );

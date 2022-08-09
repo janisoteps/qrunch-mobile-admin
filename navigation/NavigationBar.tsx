@@ -1,6 +1,6 @@
 import {Appbar, Menu} from 'react-native-paper';
 import React, {useContext} from "react";
-import {Text, TouchableOpacity, View} from "react-native";
+import {View} from "react-native";
 import SettingsContext from "../components/settings/settingsContext";
 import {coloursConstants} from "../constants/colours";
 
@@ -41,41 +41,41 @@ export default function NavigationBar(
                     flexDirection: 'row',
                 }}
             >
-                <View
-                    style={{
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        paddingTop: 5
-                    }}
-                >
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.navigate('LocationPick');
-                        }}
-                        style={{
-                            backgroundColor: coloursConstants.primaryColor.hex,
-                            padding: 7,
-                            paddingRight: 13,
-                            paddingLeft: 13,
-                            marginBottom: 8,
-                            marginRight: 20,
-                            borderRadius: 10,
-                            marginTop: 0,
-                            display: "flex",
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        <Text
-                            style={{
-                                color: 'white'
-                            }}
-                        >
-                            Location: {settingsContext.selectedLocation?.locationId}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                {/*<View*/}
+                {/*    style={{*/}
+                {/*        flexDirection: 'column',*/}
+                {/*        justifyContent: 'center',*/}
+                {/*        alignItems: 'center',*/}
+                {/*        paddingTop: 5*/}
+                {/*    }}*/}
+                {/*>*/}
+                {/*    <TouchableOpacity*/}
+                {/*        onPress={() => {*/}
+                {/*            navigation.navigate('LocationPick');*/}
+                {/*        }}*/}
+                {/*        style={{*/}
+                {/*            backgroundColor: coloursConstants.primaryColor.hex,*/}
+                {/*            padding: 7,*/}
+                {/*            paddingRight: 13,*/}
+                {/*            paddingLeft: 13,*/}
+                {/*            marginBottom: 8,*/}
+                {/*            marginRight: 20,*/}
+                {/*            borderRadius: 10,*/}
+                {/*            marginTop: 0,*/}
+                {/*            display: "flex",*/}
+                {/*            flexDirection: 'column',*/}
+                {/*            justifyContent: 'center',*/}
+                {/*        }}*/}
+                {/*    >*/}
+                {/*        <Text*/}
+                {/*            style={{*/}
+                {/*                color: 'white'*/}
+                {/*            }}*/}
+                {/*        >*/}
+                {/*            Location: {settingsContext.selectedLocation?.locationId}*/}
+                {/*        </Text>*/}
+                {/*    </TouchableOpacity>*/}
+                {/*</View>*/}
 
                 <Menu
                     visible={visible}
@@ -120,11 +120,11 @@ export default function NavigationBar(
                         onPress={() => {
                             closeMenu();
                             setTimeout(() => {
-                                navigation.navigate('MenuEdit');
+                                navigation.navigate('Services');
                             },300);
                         }}
-                        title="Menu"
-                        icon={'book-open-outline'}
+                        title="Services"
+                        icon={'room-service'}
                     />
                     <Menu.Item
                         onPress={() => {

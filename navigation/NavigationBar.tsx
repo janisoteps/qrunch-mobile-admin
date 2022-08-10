@@ -15,7 +15,6 @@ interface CustomNavigationBarProps {
 export default function NavigationBar(
     {navigation, back, options, route}: CustomNavigationBarProps
 ) {
-    const settingsContext = useContext(SettingsContext);
     const [visible, setVisible] = React.useState(false);
     const openMenu = () => setVisible(true);
     const closeMenu = () => setVisible(false);
@@ -41,42 +40,6 @@ export default function NavigationBar(
                     flexDirection: 'row',
                 }}
             >
-                {/*<View*/}
-                {/*    style={{*/}
-                {/*        flexDirection: 'column',*/}
-                {/*        justifyContent: 'center',*/}
-                {/*        alignItems: 'center',*/}
-                {/*        paddingTop: 5*/}
-                {/*    }}*/}
-                {/*>*/}
-                {/*    <TouchableOpacity*/}
-                {/*        onPress={() => {*/}
-                {/*            navigation.navigate('LocationPick');*/}
-                {/*        }}*/}
-                {/*        style={{*/}
-                {/*            backgroundColor: coloursConstants.primaryColor.hex,*/}
-                {/*            padding: 7,*/}
-                {/*            paddingRight: 13,*/}
-                {/*            paddingLeft: 13,*/}
-                {/*            marginBottom: 8,*/}
-                {/*            marginRight: 20,*/}
-                {/*            borderRadius: 10,*/}
-                {/*            marginTop: 0,*/}
-                {/*            display: "flex",*/}
-                {/*            flexDirection: 'column',*/}
-                {/*            justifyContent: 'center',*/}
-                {/*        }}*/}
-                {/*    >*/}
-                {/*        <Text*/}
-                {/*            style={{*/}
-                {/*                color: 'white'*/}
-                {/*            }}*/}
-                {/*        >*/}
-                {/*            Location: {settingsContext.selectedLocation?.locationId}*/}
-                {/*        </Text>*/}
-                {/*    </TouchableOpacity>*/}
-                {/*</View>*/}
-
                 <Menu
                     visible={visible}
                     onDismiss={closeMenu}

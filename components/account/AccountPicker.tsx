@@ -23,20 +23,12 @@ const RestaurantList = (props: RestaurantListProps): React.ReactElement => {
 
     const selectRestaurant: SelectRestaurant = (restaurantId, restaurantLocations) => {
         if (!!settingsContext?.setUsedRestaurant) {
-            // settingsContext.setUsedRestaurant(restaurantId).then(() => {
-            //     if (restaurantLocations && restaurantLocations.length > 0) {
-            //         navigation.navigate('LocationPick');
-            //     } else {
-            //         navigation.navigate('Orders');
-            //     }
-            // });
+            settingsContext.setUsedRestaurant(restaurantId);
             navigation.navigate('Orders');
         }
-
     }
 
     if (props.restaurants && props.restaurants.length > 0) {
-
         const restaurantsList = props.restaurants.filter(restDict => {
             return restDict && restDict.name
         }).map(restDict => {
@@ -48,7 +40,7 @@ const RestaurantList = (props: RestaurantListProps): React.ReactElement => {
                         margin: 10,
                         borderRadius: 10,
                         padding: 10,
-                        backgroundColor: 'white',
+                        backgroundColor: coloursConstants.primaryColor.hex,
                         shadowColor: '#171717',
                         shadowOffset: {width: -2, height: 2},
                         shadowOpacity: 0.2,
@@ -61,7 +53,7 @@ const RestaurantList = (props: RestaurantListProps): React.ReactElement => {
                 >
                     <Text
                         style={{
-                            color: colors.text,
+                            color: 'white',
                             textAlign: 'center',
                             fontSize: 20
                         }}
@@ -109,15 +101,6 @@ export default function AccountPicker(): React.ReactElement {
                 alignItems: 'center'
             }}
         >
-            <Text
-                style={{
-                    fontSize: 20,
-                    textAlign: 'center'
-                }}
-            >
-                Choose which restaurant to use:
-            </Text>
-
             <RestaurantList
                 restaurants={settingsContext.userRestaurants}
             />

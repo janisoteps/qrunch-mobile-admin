@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         shadowRadius: 100,
         elevation: 5,
         alignSelf: 'center',
-        maxHeight: '100%',
+        maxHeight: '85%',
         paddingBottom: 60
     },
     button: {

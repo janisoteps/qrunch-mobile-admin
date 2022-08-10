@@ -8,25 +8,31 @@ export interface GetStoredUserToken {
 }
 
 const getStoredUserToken: GetStoredUserToken = async (authToken, restaurantId) => {
-    const authHeader: string = `Bearer ${authToken}`;
-    let reqHeaders = baseHeaders;
-    reqHeaders['Authorization'] = authHeader;
+    try {
+        const authHeader: string = `Bearer ${authToken}`;
+        let reqHeaders = baseHeaders;
+        reqHeaders['Authorization'] = authHeader;
 
-    const requestUrl = (Constants.manifest && Constants.manifest.extra)
-        ? `${Constants.manifest.extra.qrunchApi}/api/app_user_notif_tokens_v2?restaurant_id=${restaurantId}`
-        : null;
+        const requestUrl = (Constants.manifest && Constants.manifest.extra)
+            ? `${Constants.manifest.extra.qrunchApi}/api/app_user_notif_tokens_v2?restaurant_id=${restaurantId}`
+            : null;
 
-    if (requestUrl) {
-        const tokenRes = await axios.get( requestUrl , {
-            headers: reqHeaders
-        });
+        if (requestUrl) {
+            const tokenRes = await axios.get( requestUrl , {
+                headers: reqHeaders
+            });
 
-        if (!!tokenRes && !!tokenRes.data && !!tokenRes.data.userTokenDoc) {
-            return tokenRes.data.userTokenDoc
+            if (!!tokenRes && !!tokenRes.data && !!tokenRes.data.userTokenDoc) {
+                return tokenRes.data.userTokenDoc
+            } else {
+                return null
+            }
         } else {
             return null
         }
-    } else {
+    } catch (e) {
+        console.log(`getStoredUserToken ${e}`)
+
         return null
     }
 };

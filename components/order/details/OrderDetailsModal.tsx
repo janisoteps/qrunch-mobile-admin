@@ -2,7 +2,6 @@ import {Modal, StyleSheet, View} from "react-native";
 import {useContext, useEffect, useState} from "react";
 import React from "react";
 import SettingsContext from "../../settings/settingsContext";
-import AuthContext from "../../auth/authContext";
 import ManageQrunchOrder from "./ManageQrunchOrder";
 import {
     ChangeOrderEta,
@@ -28,7 +27,6 @@ interface OrderDetailsModalProps {
 
 
 export default function OrderDetailsModal(props: OrderDetailsModalProps) {
-    const authContext = useContext(AuthContext);
     const settingsContext = useContext(SettingsContext);
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [itemDataList, setItemDataList] = useState<MenuItem[]>([]);

@@ -6,12 +6,12 @@ export interface UseQrunchSocketsProps {
     restaurantId: string | null | undefined,
     enabled: boolean,
     onConnected?: () => void,
-    loadNewOrder: LoadNewOrder,
-    reloadServiceOrders?: () => void
+    loadNewOrder?: LoadNewOrder,
+    reloadServiceRequests?: () => void
 }
 
 export default function useQrunchSockets(
-    {restaurantId, enabled, onConnected, loadNewOrder, reloadServiceOrders}: UseQrunchSocketsProps
+    {restaurantId, enabled, onConnected, loadNewOrder, reloadServiceRequests}: UseQrunchSocketsProps
 ) {
     const ref = useRef<Socket>();
     const [newOrders, setNewOrders] = useState([]);
@@ -31,7 +31,6 @@ export default function useQrunchSockets(
             socket.on('new_order_status', reloadOrders);
 
             socket.on('new_service_order', handleNewServiceOrderNotif);
-            socket.on('service_guest_chat', handleNewServiceChatNotif);
 
             socket.on('disconnect', () => {
                 console.log('sockets disconnected')
@@ -82,18 +81,20 @@ export default function useQrunchSockets(
     };
 
     function reloadOrders(orderEventDict: any) {
-        loadNewOrder(orderEventDict);
+        if (!!loadNewOrder) {
+            loadNewOrder(orderEventDict);
+        }
     }
 
     function handleNewServiceOrderNotif() {
-        if (!!reloadServiceOrders) {
-            reloadServiceOrders()
+        if (!!reloadServiceRequests) {
+            reloadServiceRequests()
         }
     }
 
     function handleNewServiceChatNotif() {
-        if (!!reloadServiceOrders) {
-            reloadServiceOrders()
+        if (!!reloadServiceRequests) {
+            reloadServiceRequests()
         }
     }
 

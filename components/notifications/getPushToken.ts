@@ -1,5 +1,4 @@
 import * as Notifications from 'expo-notifications';
-// import Device from 'expo-device';
 import {Platform} from "react-native";
 import Constants from "expo-constants";
 
@@ -39,7 +38,7 @@ const getPushToken: GetPushToken = async () => {
             });
         }
     } catch (e) {
-        console.log(e);
+        console.log(`getPushToken: ${e}`);
     }
 
     return token;

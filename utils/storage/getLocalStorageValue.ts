@@ -15,7 +15,8 @@ const getLocalStorageValue: GetLocalStorageValue = async (keyName) => {
             return null
         }
     } catch(e) {
-        // error reading value
+        console.log(`getLocalStorageValue ${e}`);
+
         return null
     }
 }

@@ -8,7 +8,11 @@ const Stack = createStackNavigator();
 export default function AuthStack() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+            <Stack.Screen
+                name="Welcome"
+                component={WelcomeScreen}
+                options={{headerShown: false, title: 'Qrunch'}}
+            />
             <Stack.Screen name="Sign In" component={SignInScreen} />
         </Stack.Navigator>
     );

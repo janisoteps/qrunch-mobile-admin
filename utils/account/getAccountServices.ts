@@ -46,7 +46,7 @@ const getAccountServices: GetAccountServices = async (accountId) => {
             }
         }
     } catch (e) {
-        console.log(e);
+        console.log(`getAccountServices ${e}`);
 
         return {
             success: false,

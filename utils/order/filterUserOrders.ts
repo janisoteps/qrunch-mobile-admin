@@ -11,7 +11,7 @@ export interface FilterUserOrders {
 const filterUserOrders: FilterUserOrders = (userData, ordersList) => {
     try {
         const isLocationFilterUsed = !!userData && 'appUserOrderLocations' in userData;
-        const locationsList = (!!userData && isLocationFilterUsed  && Array.isArray(userData.appUserOrderLocations))
+        const locationsList = (!!userData && isLocationFilterUsed && Array.isArray(userData.appUserOrderLocations))
             ? userData.appUserOrderLocations : [];
         const locationsIdsList = locationsList.map(locationRefDict => {
             return locationRefDict.locationId
@@ -26,7 +26,7 @@ const filterUserOrders: FilterUserOrders = (userData, ordersList) => {
         })
 
     } catch (e) {
-        console.log(e);
+        console.log(`filterUserOrders ${e}`);
 
         return []
     }

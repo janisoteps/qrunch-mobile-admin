@@ -11,8 +11,7 @@ const setLocalStorageValue: SetLocalStorageValue = async (keyName: string, keyVa
 
             return true
         } catch (e) {
-            // saving error
-            console.log(e)
+            console.log(`setLocalStorageValue ${e}`);
 
             return false
         }

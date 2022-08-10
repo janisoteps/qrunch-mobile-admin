@@ -42,10 +42,10 @@ const useAccountSettings: UseAccountSettings = (authToken) => {
     const [activePosConfig, setActivePosConfig] = useState<null | PosConfigDict>(null);
 
     useEffect(() => {
-        if (authToken && usedRestaurantId) {
+        if (!!authToken && !!usedRestaurantId) {
             getRestaurantData(authToken);
         }
-    }, [authToken, usedRestaurantId]);
+    }, [!!authToken, !!usedRestaurantId]);
 
     useEffect(() => {
         if (restaurantData) {
@@ -78,39 +78,11 @@ const useAccountSettings: UseAccountSettings = (authToken) => {
                     const parsedLocationDict = JSON.parse(locJson);
                     setSelectedLocation(parsedLocationDict);
                 } catch (e) {
-                    console.log(e);
+                    console.log(`getLocalStorageValue ${e}`);
                 }
             }
         })
     }, []);
-
-    useEffect(() => {
-        if (
-            restaurantData
-            && restaurantData.posConfig
-            && restaurantData.posConfig.length > 0
-            && selectedLocation
-        ) {
-            const locationPosConfig = restaurantData.posConfig.find((posConfigDict: PosConfigDict) => {
-                if (selectedLocation) {
-                    return posConfigDict.location === selectedLocation.locationId
-                } else {
-                    return false
-                }
-            });
-
-            if (locationPosConfig) {
-                setActivePosConfig(locationPosConfig);
-            } else {
-                setActivePosConfig(null);
-            }
-        } else if (
-            restaurantData && selectedLocation
-            && (!restaurantData.posConfig || restaurantData.posConfig.length === 0)
-        ) {
-            setActivePosConfig(null);
-        }
-    }, [selectedLocation, restaurantData]);
 
     async function getRestaurantId() {
         const restId = await getLocalStorageValue(localStorageKeys.restaurantId.keyName);
@@ -119,7 +91,7 @@ const useAccountSettings: UseAccountSettings = (authToken) => {
         }
     }
 
-    const getRestaurantData: GetRestaurantData = async (token) => {
+    const getRestaurantData: GetRestaurantData = async (token, restaurantId = usedRestaurantId) => {
         const authHeader: string = `Bearer ${token}`;
         let reqHeaders = baseHeaders;
         reqHeaders['Authorization'] = authHeader;
@@ -128,16 +100,17 @@ const useAccountSettings: UseAccountSettings = (authToken) => {
             ? `${Constants.manifest.extra.qrunchApi}/api/app_get_restaurant_data_v2` : null;
 
         try {
-            if (requestUrl) {
+            if (!!requestUrl && !!restaurantId) {
                 const restDataRes = await axios.post(
                     requestUrl,
                     {
-                        restaurant_id: usedRestaurantId
+                        restaurant_id: restaurantId
                     },
                     {
                         headers: reqHeaders
                     }
                 );
+
                 if (restDataRes.data.success) {
                     setRestaurantData(restDataRes.data.restaurantResult);
 
@@ -154,7 +127,7 @@ const useAccountSettings: UseAccountSettings = (authToken) => {
             }
 
         } catch (e) {
-            console.log(e)
+            console.log(`getRestaurantData ${e}`);
         }
     }
 
@@ -177,15 +150,14 @@ const useAccountSettings: UseAccountSettings = (authToken) => {
     const setUsedRestaurant: SetUsedRestaurant = async (id) => {
         if (id) {
             setUsedRestaurantId(id);
-            changeSelectedLocation('all');
-            if (authToken) {
-                await getRestaurantData(authToken);
+            if (!!authToken) {
+                await getRestaurantData(authToken, id);
             }
         }
     }
 
     const reloadRestaurantData: ReloadRestaurantData = async () => {
-        if (authToken) {
+        if (!!authToken) {
             await getRestaurantData(authToken);
         }
     }

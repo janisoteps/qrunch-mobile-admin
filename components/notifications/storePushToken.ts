@@ -15,7 +15,7 @@ const storePushToken: StorePushToken = async (authToken, pushToken, restaurantId
         ? `${Constants.manifest.extra.qrunchApi}/api/app_update_user_push_token_v2` : null;
 
     try {
-        if (requestUrl) {
+        if (!!requestUrl) {
             const tokenUpdateRes = await axios.post(
                 requestUrl,
                 {
@@ -37,7 +37,7 @@ const storePushToken: StorePushToken = async (authToken, pushToken, restaurantId
         }
 
     } catch (e) {
-        console.log(e);
+        console.log(`storePushToken: ${e}`)
 
         return false
     }

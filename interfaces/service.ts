@@ -97,3 +97,61 @@ export interface ServiceItem extends ServiceItemBase {
     serviceHours?: ServiceHours | null,
     additionalImages?: ServiceItemImageRef[]
 }
+
+export interface TimeFieldInput {
+    isAsap: boolean,
+    selectedTime: string | null
+}
+
+export type ServiceOrderItemFieldInputValue = string | number | boolean | TimeFieldInput;
+
+export interface ServiceOrderItemFieldInput {
+    fieldId: string,
+    fieldType: ServiceFieldType,
+    fieldInput: ServiceOrderItemFieldInputValue
+}
+
+export interface ServiceOrderItem {
+    itemId: string,
+    priceCents: number,
+    fieldInputs: ServiceOrderItemFieldInput[],
+    orderItemData: ServiceItem
+}
+
+export type ServiceOrderState = 'pending' | 'accepted' | 'completed' | 'canceled';
+
+export type PaymentMethod = 'addToRoomBill' | 'cardReader' | 'cash' | 'online';
+
+export type PaymentStatus = 'pending' | 'complete' | 'rejected';
+
+export interface PaymentData {
+    paymentStatus: PaymentStatus,
+    paymentError: null | string,
+    paymentIntentId?: string
+}
+
+export type ChatMessageAuthor = 'staff' | 'guest';
+
+export interface OrderChatMessage {
+    messageText: string,
+    date: Date,
+    messageAuthor: ChatMessageAuthor
+}
+
+export interface ServiceOrder {
+    _id?: string,
+    orderId: string,
+    orderNumber: number,
+    orderDate: Date,
+    orderDateTime: number,
+    completionDate: null | Date,
+    orderState: ServiceOrderState,
+    serviceItem: ServiceOrderItem,
+    restaurantId: string,
+    locationId: string,
+    guestToken: string,
+    roomNumber: string,
+    paymentMethod: PaymentMethod,
+    paymentData: PaymentData,
+    orderChat: OrderChatMessage[]
+}

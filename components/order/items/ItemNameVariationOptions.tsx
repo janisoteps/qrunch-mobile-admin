@@ -14,13 +14,13 @@ export default function ItemNameVariationOptions(props: ItemNameVariationProps) 
     const { colors } = useTheme();
     const itemNameDict = props.singleItemData.nameTranslations[0];
     let itemName = itemNameDict ? itemNameDict.name : 'No Name';
-    if (itemName.length > 40) {
-        itemName = `${itemName.substring(0,40)}...`;
+    if (itemName.length > 30) {
+        itemName = `${itemName.substring(0,30)}...`;
     }
     const variationLabelDict = props.orderItemDict.variation ? props.orderItemDict.variation.nameTranslations[0] : null;
     let variationLabel = variationLabelDict ? variationLabelDict.name : null;
-    if (variationLabel && variationLabel.length > 40) {
-        variationLabel = `${variationLabel.substring(0,40)}...`;
+    if (variationLabel && variationLabel.length > 30) {
+        variationLabel = `${variationLabel.substring(0,30)}...`;
     }
 
     return (
@@ -46,8 +46,8 @@ export default function ItemNameVariationOptions(props: ItemNameVariationProps) 
                     style={{
                         color: colors.text,
                         textAlign: 'left',
-                        fontSize: 15,
-                        fontWeight: '500',
+                        fontSize: 12,
+                        fontWeight: '400',
                         marginRight: 5
                     }}
                 >
@@ -57,8 +57,8 @@ export default function ItemNameVariationOptions(props: ItemNameVariationProps) 
                     style={{
                         color: colors.text,
                         textAlign: 'center',
-                        fontSize: 15,
-                        fontWeight: '500'
+                        fontSize: 12,
+                        fontWeight: '400'
                     }}
                 >
                     {variationLabel}

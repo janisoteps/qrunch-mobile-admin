@@ -17,13 +17,11 @@ const validatePushTokens: ValidatePushTokens = async (
     pushToken
 ) => {
     const existingUserToken = await getStoredUserToken(authToken, restaurantId);
-    
+
     if (!existingUserToken) {
-        console.log('storing a new token')
         await storePushToken(authToken, pushToken, restaurantId);
     } else {
         if (existingUserToken?.userEmail !== userEmail) {
-            console.log('WRONG EMAIL storing a new token')
             await storePushToken(authToken, pushToken, restaurantId);
         }
     }

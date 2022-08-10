@@ -67,7 +67,7 @@ const useLocalSession: UseLocalSession = () => {
                     return false
                 }
             } catch (e) {
-                console.log(e)
+                console.log(`storeUserData ${e}`);
 
                 return false
             }

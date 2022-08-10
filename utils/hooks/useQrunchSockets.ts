@@ -31,7 +31,6 @@ export default function useQrunchSockets(
             socket.on('new_order_status', reloadOrders);
 
             socket.on('new_service_order', handleNewServiceOrderNotif);
-            socket.on('service_guest_chat', handleNewServiceChatNotif);
 
             socket.on('disconnect', () => {
                 console.log('sockets disconnected')

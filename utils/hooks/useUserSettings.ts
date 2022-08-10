@@ -46,10 +46,10 @@ const useUserSettings: UseUserSettings = (authToken) => {
     }, [authToken]);
 
     useEffect(() => {
-        if (restaurantIds && restaurantIds.length > 0) {
+        if (!!restaurantIds && restaurantIds.length > 0) {
             getUserRestaurants(restaurantIds);
         }
-    }, [restaurantIds]);
+    }, [!!restaurantIds]);
 
     useEffect(() => {
         setScreenWidth(Dimensions.get('window').width);
@@ -89,24 +89,28 @@ const useUserSettings: UseUserSettings = (authToken) => {
 
         } catch (e) {
             console.log('getUserData ERROR')
-            console.log(e);
         }
     }
 
     const getUserRestaurants: GetUserRestaurants = async (ids) => {
-        const requestBaseUrl = (Constants.manifest && Constants.manifest.extra)
-            ? `${Constants.manifest.extra.qrunchApi}/api/restaurant_id` : null;
+        try {
+            const requestBaseUrl = (Constants.manifest && Constants.manifest.extra)
+                ? `${Constants.manifest.extra.qrunchApi}/api/restaurant_id` : null;
 
-        if (requestBaseUrl) {
-            const restaurantList = ids.map(async restaurantId => {
-                const requestUrl = `${requestBaseUrl}?id=${restaurantId}`;
-                const res = await axios.get(requestUrl, {headers: baseHeaders});
-                return await res.data
-            });
-            Promise.all(restaurantList).then((restListData) => {
-                setUserRestaurants(restListData);
+            if (requestBaseUrl) {
+                const restaurantListPromises = ids.map(async restaurantId => {
+                    const requestUrl = `${requestBaseUrl}?id=${restaurantId}`;
+                    const res = await axios.get(requestUrl, {headers: baseHeaders});
+
+                    return await res.data
+                });
+                const restaurantList = await Promise.all(restaurantListPromises);
+
+                setUserRestaurants(restaurantList);
                 setRestaurantsLoading(false);
-            });
+            }
+        } catch (e) {
+            console.log(`getUserRestaurants: ${e}`)
         }
     }
 

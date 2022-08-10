@@ -4,23 +4,29 @@ import baseHeaders from "../../constants/requestHeaders";
 
 
 export default async function getOrderDict(orderId: string) {
-    const requestUrl = (Constants.manifest && Constants.manifest.extra)
-        ? `${Constants.manifest.extra.qrunchApi}/api/get_order_dict?id=${orderId}` : null;
+    try {
+        const requestUrl = (Constants.manifest && Constants.manifest.extra)
+            ? `${Constants.manifest.extra.qrunchApi}/api/get_order_dict?id=${orderId}` : null;
 
-    if (requestUrl) {
-        const orderDataRes = await axios.get(
-            requestUrl,
-            {
-                headers: baseHeaders
+        if (requestUrl) {
+            const orderDataRes = await axios.get(
+                requestUrl,
+                {
+                    headers: baseHeaders
+                }
+            );
+
+            if (orderDataRes && orderDataRes.data) {
+                return orderDataRes.data.orderResult
+            } else {
+                return null
             }
-        );
-
-        if (orderDataRes && orderDataRes.data) {
-            return orderDataRes.data.orderResult
         } else {
             return null
         }
-    } else {
+    } catch (e) {
+        console.log(`getOrderDict ${e}`);
+
         return null
     }
 }

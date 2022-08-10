@@ -55,7 +55,7 @@ const updateUserOneSetting: UpdateUserOneSetting = async (authToken, updateDict)
             }
         }
     } catch (error) {
-        console.log(error);
+        console.log(`updateUserOneSetting ${error}`);
 
         return {
             success: false,

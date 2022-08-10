@@ -58,7 +58,7 @@ const sendServiceChatMessage: SendServiceChatMessage = async (
             }
         }
     } catch (error) {
-        console.log(error);
+        console.log(`sendServiceChatMessage ${error}`);
 
         return {
             success: false,

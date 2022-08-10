@@ -17,6 +17,7 @@ export interface UpdateServiceOrder {
     }>
 }
 
+
 const updateServiceOrder: UpdateServiceOrder = async (
     authToken,
     serviceOrderId,
@@ -66,6 +67,8 @@ const updateServiceOrder: UpdateServiceOrder = async (
             }
         }
     } catch (e) {
+        console.log(`updateServiceOrder ${e}`);
+
         return {
             success: false,
             error: `${e}`

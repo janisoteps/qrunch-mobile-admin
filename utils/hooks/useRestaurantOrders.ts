@@ -1,4 +1,4 @@
-import {LocationDict, RestaurantSettings} from "../../interfaces/appSettings";
+import {RestaurantSettings} from "../../interfaces/appSettings";
 import {
     GetRestaurantOrders,
     LoadNewOrder, Order,
@@ -9,12 +9,10 @@ import {
 import {useEffect, useState} from "react";
 import baseHeaders from "../../constants/requestHeaders";
 import Constants from "expo-constants";
-import {defaultLocation} from "../../constants/location";
 import axios from "axios";
 import updateOneOrderProperty from "../order/updateOneOrderProperty";
 import {QrunchUser} from "../../interfaces/qrunchUser";
 import filterUserOrders from "../order/filterUserOrders";
-import checkUserOrderLocation from "../order/checkUserOrderLocation";
 import checkUserLocation from "../user/checkUserLocation";
 
 export interface UseRestaurantOrders {
@@ -48,7 +46,7 @@ const useRestaurantOrders: UseRestaurantOrders = (
     const [stateIterator, setStateIterator] = useState<string | null>(null);
 
     useEffect(() => {
-        if (authToken && restaurantData) {
+        if (!!authToken && !!restaurantData) {
             getRestaurantOrders(restaurantData._id, authToken, viewOrderHistory).then(orders => {
                 setOrderList(orders);
                 setPageCount(Math.ceil(orders.length / 10));
@@ -65,9 +63,8 @@ const useRestaurantOrders: UseRestaurantOrders = (
         const requestUrl = (Constants.manifest && Constants.manifest.extra)
             ? `${Constants.manifest.extra.qrunchApi}/api/app_get_restaurant_orders_v2` : null;
 
-        if (requestUrl) {
+        if (!!requestUrl && !!restaurantId) {
             try {
-
                 const ordersRes = await axios.post(
                     requestUrl,
                     {
@@ -90,7 +87,6 @@ const useRestaurantOrders: UseRestaurantOrders = (
                     });
 
                     const userFilteredOrders = filterUserOrders(userData, activeOrders);
-
                     if (!!userFilteredOrders) {
                         return userFilteredOrders
                     } else {
@@ -101,7 +97,7 @@ const useRestaurantOrders: UseRestaurantOrders = (
                 }
 
             } catch (e) {
-                console.log(e);
+                console.log(`getRestaurantOrders ${e}`);
 
                 return []
             }

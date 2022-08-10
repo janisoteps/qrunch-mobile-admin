@@ -46,6 +46,8 @@ const filterUserServiceRequests: FilterUserServiceRequests = (serviceRequests, u
             return []
         }
     } catch (e) {
+        console.log(`filterUserServiceRequests ${e}`);
+
         return []
     }
 };

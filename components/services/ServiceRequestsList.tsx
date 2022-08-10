@@ -2,12 +2,17 @@ import {ServiceOrder} from "../../interfaces/service";
 import {View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 import ServiceRequestListRow from "./ServiceRequestListRow";
+import React from "react";
 
 interface ServiceRequestsListProps {
-    serviceRequests: ServiceOrder[]
+    serviceRequests: ServiceOrder[],
+    setModalServiceRequestData: React.Dispatch<ServiceOrder | null>,
 }
 
-export default function ServiceRequestsList({serviceRequests}: ServiceRequestsListProps) {
+
+export default function ServiceRequestsList(
+    {serviceRequests, setModalServiceRequestData}: ServiceRequestsListProps
+) {
     const { colors } = useTheme();
 
     return (
@@ -24,6 +29,7 @@ export default function ServiceRequestsList({serviceRequests}: ServiceRequestsLi
                     <ServiceRequestListRow
                         key={serviceRequest._id}
                         serviceOrder={serviceRequest}
+                        setModalServiceRequestData={setModalServiceRequestData}
                     />
                 )
             })}

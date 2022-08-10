@@ -1,17 +1,23 @@
-import {TouchableOpacity} from "react-native";
-import {useTheme} from "@react-navigation/native";
+import {TouchableOpacity, View} from "react-native";
 import {RoomNumber} from "./request/RoomNumber";
 import {ServiceOrder} from "../../interfaces/service";
 import {ServiceItemName} from "./request/ServiceItemName";
 import ServiceOrderDateTime from "./request/ServiceOrderDateTime";
 import ServiceRequestedTime from "./request/ServiceRequestedTime";
 import RequestState from "./request/RequestState";
+import React, {useContext} from "react";
+import SettingsContext from "../settings/settingsContext";
 
 interface ServiceRequestListRowProps {
-    serviceOrder: ServiceOrder
+    serviceOrder: ServiceOrder,
+    setModalServiceRequestData: React.Dispatch<ServiceOrder | null>,
 }
 
-export default function ServiceRequestListRow({serviceOrder}: ServiceRequestListRowProps) {
+
+export default function ServiceRequestListRow(
+    {serviceOrder, setModalServiceRequestData}: ServiceRequestListRowProps
+) {
+    const settingsContext = useContext(SettingsContext);
 
     return (
         <TouchableOpacity
@@ -25,19 +31,39 @@ export default function ServiceRequestListRow({serviceOrder}: ServiceRequestList
                 shadowOpacity: 0.2,
                 shadowRadius: 3,
                 display: 'flex',
-                flexDirection: 'row',
+                flexDirection: settingsContext.isMobile ? 'column' : 'row',
                 justifyContent: 'space-between',
             }}
+            onPress={() => {
+                setModalServiceRequestData(serviceOrder);
+            }}
         >
-            <RoomNumber serviceOrder={serviceOrder} />
+            <View
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between'
+                }}
+            >
+                <RoomNumber serviceOrder={serviceOrder} />
 
-            <ServiceItemName serviceOrder={serviceOrder} />
+                <ServiceItemName serviceOrder={serviceOrder} />
 
-            <ServiceOrderDateTime serviceOrder={serviceOrder} />
+                <ServiceOrderDateTime serviceOrder={serviceOrder} />
+            </View>
 
-            <ServiceRequestedTime serviceOrder={serviceOrder} />
+            <View
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: settingsContext.isMobile ? 10 : 0
+                }}
+            >
+                <ServiceRequestedTime serviceOrder={serviceOrder} />
 
-            <RequestState serviceOrder={serviceOrder} />
+                <RequestState serviceOrder={serviceOrder} />
+            </View>
         </TouchableOpacity>
     )
 }

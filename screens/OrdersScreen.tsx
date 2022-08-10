@@ -8,10 +8,10 @@ import {Button} from "react-native-paper";
 import {RootTabScreenProps} from "../interfaces/general";
 import {ChangeOrderEta, ChangeOrderStatus, Order, SetModalOrderData} from "../interfaces/order";
 import Layout from "../constants/layout";
-import RestaurantOrdersList from "../components/order/RestaurantOrdersList";
 import useRestaurantOrders from "../utils/hooks/useRestaurantOrders";
 import useQrunchSockets from "../utils/hooks/useQrunchSockets";
 import OrderDetailsModal from "../components/order/details/OrderDetailsModal";
+import RestaurantOrdersList from "../components/order/RestaurantOrdersList";
 
 
 export default function OrdersScreen({route, navigation}: RootTabScreenProps<'Orders'>) {

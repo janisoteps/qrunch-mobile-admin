@@ -25,7 +25,6 @@ export default function HomeScreen() {
                     flex: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    // marginTop: settingsContext.isMobile ? 20 : 120,
                     alignSelf: 'stretch',
                     backgroundColor: coloursConstants.backgroundColorLight.hex,
                 }}
@@ -53,6 +52,14 @@ export default function HomeScreen() {
 
                 <View style={styles.separator} />
 
+                <Text
+                    style={{
+                        fontSize: 20,
+                        textAlign: 'center'
+                    }}
+                >
+                    Choose which account to use:
+                </Text>
                 <ScrollView
                     style={{
                         marginTop: Layout.headerHeight,
@@ -68,7 +75,12 @@ export default function HomeScreen() {
 
                 <Button
                     title="Reload"
-                    style={styles.button}
+                    buttonStyle={{
+                        backgroundColor: 'black',
+                        borderRadius: 15,
+                        width: 200,
+                        marginBottom: 10
+                    }}
                     onPress={() => {
                         if (!!settingsContext?.reloadUserData) {
                             settingsContext.reloadUserData();
@@ -77,7 +89,11 @@ export default function HomeScreen() {
                 />
                 <Button
                     title="Sign out"
-                    style={styles.button}
+                    buttonStyle={{
+                        backgroundColor: 'black',
+                        borderRadius: 15,
+                        width: 200
+                    }}
                     onPress={() => signOut(fbAuth)}
                 />
                 <View style={styles.separator} />

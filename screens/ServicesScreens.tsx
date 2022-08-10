@@ -9,14 +9,18 @@ import SettingsContext from "../components/settings/settingsContext";
 import useServiceRequests from "../utils/hooks/useServiceRequests";
 import useQrunchSockets from "../utils/hooks/useQrunchSockets";
 import ServiceRequestsList from "../components/services/ServiceRequestsList";
-import {Order} from "../interfaces/order";
 import {ServiceOrder} from "../interfaces/service";
 import ServiceRequestModal from "../components/services/modal/ServiceRequestModal";
+import useUiTranslations from "../utils/hooks/useUiTranslations";
 
 export default function ServicesScreen({route, navigation}: RootTabScreenProps<'Services'>) {
     const {colors} = useTheme();
     const authContext = useContext(AuthContext);
     const settingsContext = useContext(SettingsContext);
+
+    const {
+        uiTranslations
+    } = useUiTranslations();
 
     const {
         serviceRequests,
@@ -35,9 +39,7 @@ export default function ServicesScreen({route, navigation}: RootTabScreenProps<'
     } = useQrunchSockets({
         restaurantId: settingsContext.usedRestaurantId,
         enabled: true,
-        onConnected: () => {
-            console.log('sockets connected');
-        },
+        onConnected: () => {},
         reloadServiceRequests
     });
 
@@ -65,12 +67,18 @@ export default function ServicesScreen({route, navigation}: RootTabScreenProps<'
                     padding: 0
                 }}
             >
-                <ServiceRequestsList serviceRequests={serviceRequests} />
+                <ServiceRequestsList
+                    serviceRequests={serviceRequests}
+                    setModalServiceRequestData={setModalServiceRequestData}
+                />
 
                 <ServiceRequestModal
                     modalServiceRequestData={modalServiceRequestData}
                     setModalServiceRequestData={setModalServiceRequestData}
                     saveSuccess={saveSuccess}
+                    uiTranslations={uiTranslations}
+                    reloadServiceRequests={reloadServiceRequests}
+                    changeServiceRequestStatus={changeServiceRequestStatus}
                 />
             </ScrollView>
         </SafeAreaView>

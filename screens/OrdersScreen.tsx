@@ -41,9 +41,7 @@ export default function OrdersScreen({route, navigation}: RootTabScreenProps<'Or
     } = useQrunchSockets({
         restaurantId: settingsContext.usedRestaurantId,
         enabled: true,
-        onConnected: () => {
-            console.log('sockets connected');
-        },
+        onConnected: () => {},
         loadNewOrder
     });
 

@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button } from 'react-native-elements';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import {fbAuth} from "../config/firebase";
+import {coloursConstants} from "../constants/colours";
 
 
 const SignInScreen = () => {
@@ -25,20 +26,23 @@ const SignInScreen = () => {
         try {
             await signInWithEmailAndPassword(fbAuth, value.email, value.password);
         } catch (error) {
+            console.log(`signIn: ${error}`)
+            const parsedErrorMessage = `${error.message}`.includes('wrong-password')
+                ? 'Error: Wrong password' : error.message;
             setValue({
                 ...value,
-                error: error.message,
+                error: parsedErrorMessage,
             })
         }
     }
 
     return (
         <View style={styles.container}>
-            <Text>Signin screen!</Text>
+            {!!value.error && <View style={styles.error}><Text style={{color: 'white'}}>{value.error}</Text></View>}
 
-            {!!value.error && <View style={styles.error}><Text>{value.error}</Text></View>}
-
-            <View style={styles.controls}>
+            <View
+                style={styles.controls}
+            >
                 <Input
                     placeholder='Email'
                     containerStyle={styles.control}
@@ -64,7 +68,14 @@ const SignInScreen = () => {
                     autoCompleteType={'password'}
                 />
 
-                <Button title="Sign in" buttonStyle={styles.control} onPress={signIn} />
+                <Button
+                    title="Sign in"
+                    buttonStyle={{
+                        backgroundColor: coloursConstants.primaryColor.hex,
+                        borderRadius: 20,
+                    }}
+                    onPress={signIn}
+                />
             </View>
         </View>
     );
@@ -73,14 +84,17 @@ const SignInScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 20,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+        height: '100%',
+        marginTop: 0,
+        display: 'flex',
+        flexDirection: 'column',
     },
 
     controls: {
-        flex: 1,
+        height: 400
     },
 
     control: {
@@ -90,9 +104,10 @@ const styles = StyleSheet.create({
 
     error: {
         marginTop: 10,
-        padding: 10,
+        padding: 20,
+        borderRadius: 15,
         color: '#fff',
-        backgroundColor: '#D54826FF',
+        backgroundColor: '#e62210',
     }
 });
 

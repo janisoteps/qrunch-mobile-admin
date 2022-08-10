@@ -12,7 +12,11 @@ export default function LogOutScreen() {
         <View style={styles.container}>
             <Text>Log out from {user?.email} account.</Text>
 
-            <Button title="Sign Out" style={styles.button} onPress={() => signOut(fbAuth)} />
+            <Button
+                title="Sign Out"
+                buttonStyle={styles.button}
+                onPress={() => signOut(fbAuth)}
+            />
         </View>
     );
 }
@@ -25,6 +29,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     button: {
-        marginTop: 10
+        marginTop: 10,
+        borderRadius: 15,
+        width: 200,
+        backgroundColor: 'black'
     }
 });

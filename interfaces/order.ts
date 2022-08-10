@@ -76,7 +76,8 @@ export interface OrderStateStepProps {
 export interface ArrowImgStyle {
     width: number,
     height: number,
-    tintColor?: string
+    tintColor?: string,
+    marginRight?: number
 }
 
 export interface StepIconImgStyle {

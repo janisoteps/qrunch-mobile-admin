@@ -74,6 +74,9 @@ export interface LocationRef {
 }
 
 export interface GetRestaurantData {
-    (authToken: string): Promise<void>
+    (
+        authToken: string,
+        restaurantId?: string | null
+    ): Promise<void>
 }
 

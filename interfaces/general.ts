@@ -49,3 +49,12 @@ export interface UpdateDict {
     key: string,
     newValue: any
 }
+
+export interface UiTranslation {
+    _id: string,
+    type: string,
+    name: string,
+    translations: {
+        [index: string]: string
+    }
+}

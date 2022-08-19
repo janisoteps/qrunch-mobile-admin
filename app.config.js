@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 export default {
     "expo": {
-        "owner": "janisoteps",
+        "owner": "qrunch",
         "name": "qrunch-mobile-admin",
         "slug": "qrunch-mobile-admin",
         "version": "1.0.0",

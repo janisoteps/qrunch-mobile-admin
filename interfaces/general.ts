@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { NavigatorScreenParams } from '@react-navigation/native';
+// import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 
 declare global {
     namespace ReactNavigation {
@@ -40,10 +40,7 @@ export type RootStackParamList = {
 
 export type ScreenTypesList = "Root" | "Modal" | "NotFound" | "Auth" | "LogOut" | "Home" | "Orders" | "Settings" | "RelatePosItems" | "Onboarding" | "LocationPick" | "Services";
 
-export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
-    BottomTabScreenProps<RootTabParamList, Screen>,
-    NativeStackScreenProps<RootStackParamList>
->;
+export type RootTabScreenProps<Screen extends keyof RootTabParamList> = NativeStackScreenProps<RootStackParamList>;
 
 export interface UpdateDict {
     key: string,

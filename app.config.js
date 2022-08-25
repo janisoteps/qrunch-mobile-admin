@@ -1,5 +1,3 @@
-import Config from "react-native-config"
-
 export default {
     "expo": {
         "owner": "qrunch",
@@ -43,15 +41,18 @@ export default {
             "icon":"./assets/images/adaptive-icon.png"
         },
         "extra": {
-            firebaseApiKey: Config.FIREBASE_API_KEY,
-            firebaseAuthDomain: Config.FIREBASE_AUTH_DOMAIN,
-            firebaseProjectId: Config.FIREBASE_PROJECT_ID,
-            firebaseStorageBucket: Config.FIREBASE_STORAGE_BUCKET,
-            firebaseMessagingSenderId: Config.FIREBASE_MESSAGING_SENDER_ID,
-            firebaseAppId: Config.FIREBASE_APP_ID,
-            measurementId: Config.MEASUREMENT_ID,
-            qrunchApi: Config.QRUNCH_API,
-            qrunchWeb: Config.QRUNCH_WEB
+            firebaseApiKey: process.env.FIREBASE_API_KEY,
+            firebaseAuthDomain: process.env.FIREBASE_AUTH_DOMAIN,
+            firebaseProjectId: process.env.FIREBASE_PROJECT_ID,
+            firebaseStorageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+            firebaseMessagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+            firebaseAppId: process.env.FIREBASE_APP_ID,
+            measurementId: process.env.MEASUREMENT_ID,
+            qrunchApi: process.env.QRUNCH_API,
+            qrunchWeb: process.env.QRUNCH_WEB,
+            eas: {
+                "projectId": "fb49ac4c-e2bf-4076-9cde-cd4fc79f4370"
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ export default function ItemCount(props: ItemCountProps) {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                marginRight: 10,
+                marginRight: 5,
                 marginLeft: 5
             }}
         >
@@ -24,7 +24,7 @@ export default function ItemCount(props: ItemCountProps) {
                 style={{
                     color: (props.orderItemCount && props.orderItemCount > 1) ? 'red' : colors.text,
                     textAlign: 'center',
-                    fontSize: (props.orderItemCount && props.orderItemCount > 1) ? 25 : 20,
+                    fontSize: (props.orderItemCount && props.orderItemCount > 1) ? 15 : 10,
                     fontWeight: (props.orderItemCount && props.orderItemCount > 1) ? 'bold' : 'normal'
                 }}
             >

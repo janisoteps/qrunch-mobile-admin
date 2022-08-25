@@ -55,7 +55,7 @@ export default function ManageQrunchOrder(props: ManageQrunchOrderProps) {
                         backgroundColor: 'rgba(255,255,255,0)',
                         padding: 0,
                         borderRadius: 10,
-                        flexGrow: 0
+                        flexGrow: 0,
                     }}
                 >
                     <OrderStatus
@@ -68,6 +68,7 @@ export default function ManageQrunchOrder(props: ManageQrunchOrderProps) {
                         orderDict={props.orderDict}
                         setModalOrderData={() => {}}
                         isMobile={props.isMobile}
+                        isSingleOrderView={true}
                     />
 
                     <MoreActions
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
         marginBottom: 0,
         backgroundColor: "white",
         borderRadius: 20,
-        padding: 15,
+        padding: 3,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
@@ -129,7 +130,8 @@ const styles = StyleSheet.create({
         elevation: 5,
         alignSelf: 'center',
         maxHeight: '85%',
-        paddingBottom: 60
+        paddingBottom: 60,
+        width: '100%'
     },
     button: {
         borderRadius: 15,

@@ -30,7 +30,7 @@ export default function OrderTotal(props: OrderTotalProps) {
                     fontWeight: '600'
                 }}
             >
-                {settingsContext.currencySymbol}{(props.orderTotal / 100).toFixed(2)}
+                Order total: {settingsContext.currencySymbol}{(props.orderTotal / 100).toFixed(2)}
             </Text>
         </View>
     )

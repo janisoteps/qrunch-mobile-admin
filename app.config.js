@@ -1,11 +1,14 @@
-import 'dotenv/config';
+import {
+    FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_PROJECT_ID, FIREBASE_STORAGE_BUCKET,
+    FIREBASE_MESSAGING_SENDER_ID, FIREBASE_APP_ID, MEASUREMENT_ID, QRUNCH_API, QRUNCH_WEB
+} from '@env';
 
 export default {
     "expo": {
         "owner": "qrunch",
         "name": "qrunch-mobile-admin",
         "slug": "qrunch-mobile-admin",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "orientation": "portrait",
         icon: "./assets/images/logo-icon-1024-72dpi.png",
         scheme: "qrunch-mobile-admin",
@@ -24,7 +27,7 @@ export default {
         "ios": {
             "supportsTablet": true,
             bundleIdentifier: "com.qrunch.qrunch-mobile-admin",
-            buildNumber: "1.0.0"
+            buildNumber: "1.0.1"
         },
         "android": {
             adaptiveIcon: {
@@ -32,10 +35,9 @@ export default {
                 "backgroundColor": "#ffffff",
             },
             package: "com.qrunch.qrunch_mobile_admin",
-            versionCode: 1,
+            versionCode: 2,
             permissions: ["NOTIFICATIONS"],
             useNextNotificationsApi: true,
-            // googleServicesFile: "./google-services.json",
         },
         web: {
             favicon: "./assets/images/favicon.png"
@@ -44,15 +46,15 @@ export default {
             "icon":"./assets/images/adaptive-icon.png"
         },
         "extra": {
-            firebaseApiKey: process.env.FIREBASE_API_KEY,
-            firebaseAuthDomain: process.env.FIREBASE_AUTH_DOMAIN,
-            firebaseProjectId: process.env.FIREBASE_PROJECT_ID,
-            firebaseStorageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-            firebaseMessagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-            firebaseAppId: process.env.FIREBASE_APP_ID,
-            measurementId: process.env.MEASUREMENT_ID,
-            qrunchApi: process.env.QRUNCH_API,
-            qrunchWeb: process.env.QRUNCH_WEB
+            firebaseApiKey: FIREBASE_API_KEY,
+            firebaseAuthDomain: FIREBASE_AUTH_DOMAIN,
+            firebaseProjectId: FIREBASE_PROJECT_ID,
+            firebaseStorageBucket: FIREBASE_STORAGE_BUCKET,
+            firebaseMessagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+            firebaseAppId: FIREBASE_APP_ID,
+            measurementId: MEASUREMENT_ID,
+            qrunchApi: QRUNCH_API,
+            qrunchWeb: QRUNCH_WEB
         }
     }
 }

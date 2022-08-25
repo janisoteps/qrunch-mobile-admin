@@ -52,7 +52,10 @@ export default {
             firebaseAppId: process.env.FIREBASE_APP_ID,
             measurementId: process.env.MEASUREMENT_ID,
             qrunchApi: process.env.QRUNCH_API,
-            qrunchWeb: process.env.QRUNCH_WEB
+            qrunchWeb: process.env.QRUNCH_WEB,
+            "eas": {
+                "projectId": "fb49ac4c-e2bf-4076-9cde-cd4fc79f4370"
+            }
         }
     }
 }

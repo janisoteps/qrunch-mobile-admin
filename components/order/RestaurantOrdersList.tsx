@@ -7,7 +7,8 @@ import {View, Text} from "react-native";
 
 export interface RestaurantOrdersListProps {
     orderList: Order[],
-    setModalOrderData: SetModalOrderData
+    setModalOrderData: SetModalOrderData,
+    ordersLoading: boolean
 }
 
 
@@ -22,6 +23,7 @@ export default function RestaurantOrdersList(props: RestaurantOrdersListProps) {
                 orderDict={orderDict}
                 setModalOrderData={props.setModalOrderData}
                 isMobile={(settingsContext && settingsContext.isMobile !== undefined) ? settingsContext.isMobile : false}
+                isSingleOrderView={false}
             />
         )
     });
@@ -32,10 +34,12 @@ export default function RestaurantOrdersList(props: RestaurantOrdersListProps) {
                 backgroundColor: colors.background,
                 margin: 0,
                 marginTop: 20,
-                marginBottom: 100
+                marginBottom: 100,
+                width: '100%',
+
             }}
         >
-            {(ordersList && ordersList.length === 0) && (
+            {props.ordersLoading ? (
                 <Text
                     style={{
                         color: colors.text,
@@ -43,9 +47,30 @@ export default function RestaurantOrdersList(props: RestaurantOrdersListProps) {
                         fontSize: 20
                     }}
                 >
-                    No orders found
+                    Loading orders...
                 </Text>
+            ):(
+                <View
+                    style={{
+                        backgroundColor: colors.background,
+                        margin: 0,
+                        width: '100%'
+                    }}
+                >
+                    {(ordersList && ordersList.length === 0) && (
+                        <Text
+                            style={{
+                                color: colors.text,
+                                textAlign: 'center',
+                                fontSize: 20
+                            }}
+                        >
+                            No orders found
+                        </Text>
+                    )}
+                </View>
             )}
+
             {ordersList}
         </View>
     )

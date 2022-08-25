@@ -18,8 +18,8 @@ export default function ScrollDownButton(props: ScrollDownButtonProps) {
             }}
             style={{
                 position: 'absolute',
-                bottom: 5,
-                left: 5,
+                bottom: -15,
+                right: 5,
                 backgroundColor: colors.primary
             }}
         />

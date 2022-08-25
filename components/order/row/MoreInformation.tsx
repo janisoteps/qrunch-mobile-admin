@@ -12,7 +12,8 @@ interface MoreInformationProps {
     locationType: string,
     taboomNr: null | string,
     backgroundColor: string,
-    isMobile: boolean | undefined
+    isMobile: boolean | undefined,
+    isSingleOrderView: boolean
 }
 
 export default function MoreInformation(props: MoreInformationProps) {
@@ -41,7 +42,7 @@ export default function MoreInformation(props: MoreInformationProps) {
             style={{
                 backgroundColor: props.backgroundColor,
                 display: 'flex',
-                flexDirection: props.isMobile ? 'row' : 'column',
+                flexDirection: props.isSingleOrderView ? 'column' : 'row',
                 justifyContent: 'center'
             }}
         >
@@ -65,6 +66,13 @@ export default function MoreInformation(props: MoreInformationProps) {
                         style={textStyle}
                     >
                         {`${weekDays[new Date(props.orderDict.creationDate).getDay()]} `}
+                    </Text>
+                    <Text
+                        style={{
+                            paddingRight: 5,
+                            ...textStyle
+                        }}
+                    >
                         {`${new Date(props.orderDict.creationDate).toLocaleString()}`}
                     </Text>
                 </View>
@@ -96,6 +104,12 @@ export default function MoreInformation(props: MoreInformationProps) {
                     </Text>
                 </View>
 
+                <View style={{
+                    marginVertical: 5,
+                    height: 1,
+                    width: '80%',
+                }} />
+
                 {props.taboomNr && (
                     <Text
                         style={textStyle}
@@ -103,8 +117,6 @@ export default function MoreInformation(props: MoreInformationProps) {
                         {unitLabel}: {props.taboomNr}
                     </Text>
                 )}
-
-
             </View>
 
             <View
@@ -128,6 +140,13 @@ export default function MoreInformation(props: MoreInformationProps) {
                     >
                         Order type: {props.orderDict.orderType}
                     </Text>
+
+                    <View style={{
+                        marginVertical: 5,
+                        height: 1,
+                        width: '80%',
+                    }} />
+
                     <Text
                         style={{
                             ...textStyle,
@@ -202,16 +221,27 @@ export default function MoreInformation(props: MoreInformationProps) {
                         style={{
                             backgroundColor: props.backgroundColor,
                             display: 'flex',
-                            flexDirection: 'row',
+                            flexDirection: 'column',
                             justifyContent: 'center'
                         }}
                     >
                         <Text
                             style={textStyle}
                         >
-                            Service (included in total): {settingsContext.currencySymbol}
-                            {(props.orderDict.serviceFee / 100).toFixed(2)}
+                            Service (included in total):
                         </Text>
+                        <View
+                            style={{
+                                backgroundColor: props.backgroundColor,
+                            }}
+                        >
+                            <Text
+                                style={textStyle}
+                            >
+                                {settingsContext.currencySymbol}
+                                {(props.orderDict.serviceFee / 100).toFixed(2)}
+                            </Text>
+                        </View>
                     </View>
                 )}
 

@@ -18,8 +18,8 @@ export default function ScrollUpButton(props: ScrollUpButtonProps) {
             }}
             style={{
                 position: 'absolute',
-                top: 40,
-                left: 5,
+                top: 45,
+                right: 0,
                 backgroundColor: colors.primary
             }}
         />

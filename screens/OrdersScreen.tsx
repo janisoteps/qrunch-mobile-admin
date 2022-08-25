@@ -29,7 +29,8 @@ export default function OrdersScreen({route, navigation}: RootTabScreenProps<'Or
         pageCount,
         viewOrderHistory,
         toggleOrderHistory,
-        stateIterator
+        stateIterator,
+        ordersLoading
     } = useRestaurantOrders(authContext.authToken, settingsContext.restaurantData, settingsContext.userData);
 
     const {
@@ -121,7 +122,7 @@ export default function OrdersScreen({route, navigation}: RootTabScreenProps<'Or
                 style={{
                     marginTop: Layout.headerHeight,
                     paddingTop: 40,
-                    marginHorizontal: 20,
+                    marginHorizontal: 2,
                     flex: 1,
                     backgroundColor: colors.background,
                     alignSelf: 'stretch',
@@ -131,6 +132,7 @@ export default function OrdersScreen({route, navigation}: RootTabScreenProps<'Or
                 <RestaurantOrdersList
                     orderList={orderList}
                     setModalOrderData={setModalOrderData}
+                    ordersLoading={ordersLoading}
                 />
 
                 <OrderDetailsModal

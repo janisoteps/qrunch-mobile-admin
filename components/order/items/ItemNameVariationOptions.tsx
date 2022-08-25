@@ -30,7 +30,7 @@ export default function ItemNameVariationOptions(props: ItemNameVariationProps) 
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                marginRight: 5
+                marginRight: 5,
             }}
         >
             <View

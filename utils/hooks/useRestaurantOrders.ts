@@ -31,7 +31,8 @@ export interface UseRestaurantOrders {
         pageCount: number,
         viewOrderHistory: boolean,
         toggleOrderHistory: ToggleOrderHistory,
-        stateIterator: string | null
+        stateIterator: string | null,
+        ordersLoading: boolean
     }
 }
 
@@ -44,6 +45,7 @@ const useRestaurantOrders: UseRestaurantOrders = (
     const [pageCount, setPageCount] = useState<number>(0);
     const [viewOrderHistory, setViewOrderHistory] = useState<boolean>(false);
     const [stateIterator, setStateIterator] = useState<string | null>(null);
+    const [ordersLoading, setOrdersLoading] = useState<boolean>(true);
 
     useEffect(() => {
         if (!!authToken && !!restaurantData) {
@@ -56,6 +58,7 @@ const useRestaurantOrders: UseRestaurantOrders = (
     }, [authToken, restaurantData]);
 
     const getRestaurantOrders: GetRestaurantOrders = async (restaurantId, token, showHistory) => {
+        setOrdersLoading(true);
         const authHeader: string = `Bearer ${token}`;
         let reqHeaders = baseHeaders;
         reqHeaders['Authorization'] = authHeader;
@@ -76,6 +79,8 @@ const useRestaurantOrders: UseRestaurantOrders = (
                         headers: reqHeaders
                     }
                 );
+
+                setOrdersLoading(false);
 
                 if (ordersRes.data.success) {
                     const activeOrders = ordersRes.data.orders.filter((orderDict: any) => {
@@ -198,7 +203,8 @@ const useRestaurantOrders: UseRestaurantOrders = (
         pageCount,
         viewOrderHistory,
         toggleOrderHistory,
-        stateIterator
+        stateIterator,
+        ordersLoading
     }
 }
 

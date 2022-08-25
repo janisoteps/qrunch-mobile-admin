@@ -30,12 +30,14 @@ export default function ItemListRow(props: ItemListRowProps) {
                     style={{
                         backgroundColor: 'white',
                         margin: 5,
+                        marginLeft: 2,
                         padding: 5,
                         borderRadius: 10,
                         shadowColor: '#171717',
                         shadowOffset: {width: 0, height: 2},
                         shadowOpacity: 0.2,
                         shadowRadius: 3,
+                        width: '95%'
                     }}
                 >
                     <View

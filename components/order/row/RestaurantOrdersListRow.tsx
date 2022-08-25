@@ -15,7 +15,8 @@ import MoreInformation from "./MoreInformation";
 export interface RestaurantOrdersListRowProps {
     orderDict: Order | null,
     setModalOrderData: SetModalOrderData,
-    isMobile: boolean | undefined
+    isMobile: boolean | undefined,
+    isSingleOrderView: boolean
 }
 
 
@@ -54,6 +55,7 @@ export default function RestaurantOrdersListRow(props: RestaurantOrdersListRowPr
                 key={props.orderDict._id}
                 style={{
                     margin: 10,
+                    marginHorizontal: 0,
                     borderRadius: 10,
                     padding: 10,
                     backgroundColor: backgroundColor,
@@ -61,6 +63,7 @@ export default function RestaurantOrdersListRow(props: RestaurantOrdersListRowPr
                     shadowOffset: {width: 0, height: 2},
                     shadowOpacity: 0.2,
                     shadowRadius: 3,
+                    width: '100%'
                 }}
                 onPress={() => {
                     props.setModalOrderData(props.orderDict);
@@ -85,15 +88,19 @@ export default function RestaurantOrdersListRow(props: RestaurantOrdersListRowPr
                         backgroundColor={backgroundColor}
                     />
 
-                    <OrderTotal
-                        orderTotal={props.orderDict.orderTotal}
-                        backgroundColor={backgroundColor}
-                    />
+                    {!props.isMobile && (
+                        <OrderTotal
+                            orderTotal={props.orderDict.orderTotal}
+                            backgroundColor={backgroundColor}
+                        />
+                    )}
 
-                    <OrderPaidLabel
-                        orderDict={props.orderDict}
-                        backgroundColor={backgroundColor}
-                    />
+                    {!props.isMobile && (
+                        <OrderPaidLabel
+                            orderDict={props.orderDict}
+                            backgroundColor={backgroundColor}
+                        />
+                    )}
 
                     {!props.isMobile && (
                         <OrderNumber
@@ -109,6 +116,7 @@ export default function RestaurantOrdersListRow(props: RestaurantOrdersListRowPr
                             taboomNr={taboomNr}
                             backgroundColor={backgroundColor}
                             isMobile={props.isMobile}
+                            isSingleOrderView={props.isSingleOrderView}
                         />
                     )}
                 </View>
@@ -120,7 +128,34 @@ export default function RestaurantOrdersListRow(props: RestaurantOrdersListRowPr
                         taboomNr={taboomNr}
                         backgroundColor={backgroundColor}
                         isMobile={props.isMobile}
+                        isSingleOrderView={props.isSingleOrderView}
                     />
+                )}
+
+                {props.isMobile && (
+                    <View
+                        style={{
+                            backgroundColor: 'rgba(255,255,255,0)',
+                            display: 'flex',
+                            flexDirection: props.isSingleOrderView ? 'column' : 'row',
+                            justifyContent: 'space-between'
+                        }}
+                    >
+                        <OrderNumber
+                            orderNumber={orderIdentifier}
+                            backgroundColor={backgroundColor}
+                        />
+
+                        <OrderTotal
+                            orderTotal={props.orderDict.orderTotal}
+                            backgroundColor={backgroundColor}
+                        />
+
+                        <OrderPaidLabel
+                            orderDict={props.orderDict}
+                            backgroundColor={backgroundColor}
+                        />
+                    </View>
                 )}
 
             </Pressable>

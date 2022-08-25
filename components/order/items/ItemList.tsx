@@ -62,8 +62,9 @@ export default function ItemList(props: ItemListProps) {
                         color: colors.text,
                         textAlign: 'left',
                         fontSize: 20,
-                        paddingLeft: 5,
+                        paddingLeft: 2,
                         fontWeight: 'bold',
+                        marginBottom: 30
                     }}
                 >
                     {props.itemDataList.length} items:
@@ -98,7 +99,7 @@ export default function ItemList(props: ItemListProps) {
                                     flex: 0,
                                     alignSelf: 'stretch',
                                     paddingTop: 20,
-                                    paddingBottom: 20,
+                                    paddingBottom: 40,
                                     backgroundColor: colors.background
                                 }}
                             >

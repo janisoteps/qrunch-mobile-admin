@@ -8,5 +8,4 @@ declare module '@env' {
     export const QRUNCH_API: string;
     export const QRUNCH_WEB: string;
     export const FIREBASE_APP_ID: string;
-
 }

@@ -1,7 +1,4 @@
-import {
-    FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_PROJECT_ID, FIREBASE_STORAGE_BUCKET,
-    FIREBASE_MESSAGING_SENDER_ID, FIREBASE_APP_ID, MEASUREMENT_ID, QRUNCH_API, QRUNCH_WEB
-} from '@env';
+import Config from "react-native-config"
 
 export default {
     "expo": {
@@ -46,15 +43,15 @@ export default {
             "icon":"./assets/images/adaptive-icon.png"
         },
         "extra": {
-            firebaseApiKey: FIREBASE_API_KEY,
-            firebaseAuthDomain: FIREBASE_AUTH_DOMAIN,
-            firebaseProjectId: FIREBASE_PROJECT_ID,
-            firebaseStorageBucket: FIREBASE_STORAGE_BUCKET,
-            firebaseMessagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
-            firebaseAppId: FIREBASE_APP_ID,
-            measurementId: MEASUREMENT_ID,
-            qrunchApi: QRUNCH_API,
-            qrunchWeb: QRUNCH_WEB
+            firebaseApiKey: Config.FIREBASE_API_KEY,
+            firebaseAuthDomain: Config.FIREBASE_AUTH_DOMAIN,
+            firebaseProjectId: Config.FIREBASE_PROJECT_ID,
+            firebaseStorageBucket: Config.FIREBASE_STORAGE_BUCKET,
+            firebaseMessagingSenderId: Config.FIREBASE_MESSAGING_SENDER_ID,
+            firebaseAppId: Config.FIREBASE_APP_ID,
+            measurementId: Config.MEASUREMENT_ID,
+            qrunchApi: Config.QRUNCH_API,
+            qrunchWeb: Config.QRUNCH_WEB
         }
     }
 }

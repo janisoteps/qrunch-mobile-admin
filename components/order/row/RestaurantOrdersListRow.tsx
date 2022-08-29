@@ -1,5 +1,5 @@
 import {Pressable, View} from "react-native";
-import React, {useContext} from "react";
+import React, {memo, useContext} from "react";
 import SettingsContext from "../../settings/settingsContext";
 import {Order, SetModalOrderData} from "../../../interfaces/order";
 import {locationTypes} from "../../../constants/location";
@@ -20,7 +20,7 @@ export interface RestaurantOrdersListRowProps {
 }
 
 
-export default function RestaurantOrdersListRow(props: RestaurantOrdersListRowProps) {
+const RestaurantOrdersListRow = (props: RestaurantOrdersListRowProps) => {
     const settingsContext = useContext(SettingsContext);
 
     if (props.orderDict) {
@@ -165,3 +165,20 @@ export default function RestaurantOrdersListRow(props: RestaurantOrdersListRowPr
     }
 
 }
+
+export default memo(
+    RestaurantOrdersListRow,
+    (
+        prevProps,
+        nextProps
+    ) => {
+        if (
+            prevProps.orderDict?.orderState === nextProps.orderDict?.orderState
+            && prevProps.orderDict?.eta === nextProps.orderDict?.eta
+        ) {
+            return true; // props are equal
+        } else {
+            return false; // props are not equal -> update the component);
+        }
+    }
+)

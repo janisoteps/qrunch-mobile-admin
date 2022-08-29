@@ -178,10 +178,6 @@ export default memo(
         ) {
             return true; // props are equal
         } else {
-            console.log('prevProps.orderDict?.orderState')
-            console.log(prevProps.orderDict?.orderState)
-            console.log('nextProps.orderDict?.orderState')
-            console.log(nextProps.orderDict?.orderState)
             return false; // props are not equal -> update the component);
         }
     }

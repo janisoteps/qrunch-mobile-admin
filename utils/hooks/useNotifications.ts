@@ -66,16 +66,27 @@ const useNotifications: UseNotifications = (
 
     useEffect(() => {
         if (!!authToken) {
-            getPushToken().then(token => setExpoPushToken(token)).catch(error => {
-                console.log('error')
-                console.log(error)
-
-                setTimeout(() => {
-                    getPushToken().then(token => setExpoPushToken(token));
-                }, 5000);
-            });
+            setTimeout(() => {
+                getPushToken().then(token => {
+                    if (!!token) {
+                        setExpoPushToken(token);
+                    } else {
+                        setTimeout(() => {
+                            getPushToken().then(token => {
+                                setExpoPushToken(token)
+                            }).catch(error => {
+                                console.log('error')
+                                console.log(error)
+                            });
+                        }, 5000);
+                    }
+                }).catch(error => {
+                    console.log('error')
+                    console.log(error)
+                });
+            }, 5000);
         }
-    }, [authToken])
+    }, [authToken]);
 
     useEffect(() => {
         if (authToken && expoPushToken && userData && usedRestaurantId && !checking) {

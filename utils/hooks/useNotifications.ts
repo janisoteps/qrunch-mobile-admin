@@ -66,7 +66,14 @@ const useNotifications: UseNotifications = (
 
     useEffect(() => {
         if (!!authToken) {
-            getPushToken().then(token => setExpoPushToken(token));
+            getPushToken().then(token => setExpoPushToken(token)).catch(error => {
+                console.log('error')
+                console.log(error)
+
+                setTimeout(() => {
+                    getPushToken().then(token => setExpoPushToken(token));
+                }, 5000);
+            });
         }
     }, [authToken])
 

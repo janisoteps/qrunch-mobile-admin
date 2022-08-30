@@ -35,7 +35,7 @@ export default {
             versionCode: 1,
             permissions: ["NOTIFICATIONS"],
             useNextNotificationsApi: true,
-            // googleServicesFile: "./google-services.json",
+            googleServicesFile: "./google-services.json",
         },
         web: {
             favicon: "./assets/images/favicon.png"

@@ -41,8 +41,6 @@ const useNotifications: UseNotifications = (
     const responseListener = useRef<any>();
 
     useEffect(() => {
-        getPushToken().then(token => setExpoPushToken(token));
-
         notificationListener.current = Notifications.addNotificationReceivedListener(notificationDict => {
             const initialRoute = getInitialRoute(notificationDict);
             setNotification(notificationDict);
@@ -65,6 +63,30 @@ const useNotifications: UseNotifications = (
             Notifications.removeNotificationSubscription(responseListener.current);
         };
     }, []);
+
+    useEffect(() => {
+        if (!!authToken) {
+            setTimeout(() => {
+                getPushToken().then(token => {
+                    if (!!token) {
+                        setExpoPushToken(token);
+                    } else {
+                        setTimeout(() => {
+                            getPushToken().then(token => {
+                                setExpoPushToken(token)
+                            }).catch(error => {
+                                console.log('error')
+                                console.log(error)
+                            });
+                        }, 5000);
+                    }
+                }).catch(error => {
+                    console.log('error')
+                    console.log(error)
+                });
+            }, 5000);
+        }
+    }, [authToken]);
 
     useEffect(() => {
         if (authToken && expoPushToken && userData && usedRestaurantId && !checking) {

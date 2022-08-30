@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1087322525334",
+    "project_id": "qrunch-mobile-admin",
+    "storage_bucket": "qrunch-mobile-admin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087322525334:android:6e9d56c9ac2b52cfd3bcb7",
+        "android_client_info": {
+          "package_name": "com.qrunch.qrunch_mobile_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1087322525334-jdq11hpmrgfh1hcu4mqq6ci0l8vif0oa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBn2R8N0RjqnOWZ3B_qh7OKELGZSbwtR5s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087322525334-jdq11hpmrgfh1hcu4mqq6ci0l8vif0oa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

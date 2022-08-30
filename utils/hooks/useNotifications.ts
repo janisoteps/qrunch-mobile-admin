@@ -41,8 +41,6 @@ const useNotifications: UseNotifications = (
     const responseListener = useRef<any>();
 
     useEffect(() => {
-        getPushToken().then(token => setExpoPushToken(token));
-
         notificationListener.current = Notifications.addNotificationReceivedListener(notificationDict => {
             const initialRoute = getInitialRoute(notificationDict);
             setNotification(notificationDict);
@@ -65,6 +63,12 @@ const useNotifications: UseNotifications = (
             Notifications.removeNotificationSubscription(responseListener.current);
         };
     }, []);
+
+    useEffect(() => {
+        if (!!authToken) {
+            getPushToken().then(token => setExpoPushToken(token));
+        }
+    }, [authToken])
 
     useEffect(() => {
         if (authToken && expoPushToken && userData && usedRestaurantId && !checking) {

@@ -2,13 +2,14 @@ import React, {useContext} from "react";
 import {useTheme} from "@react-navigation/native";
 import RestaurantOrdersListRow from "./row/RestaurantOrdersListRow";
 import SettingsContext from "../settings/settingsContext";
-import {Order, SetModalOrderData} from "../../interfaces/order";
+import {Order, ReloadOrders, SetModalOrderData} from "../../interfaces/order";
 import {View, Text} from "react-native";
 
 export interface RestaurantOrdersListProps {
     orderList: Order[],
     setModalOrderData: SetModalOrderData,
-    ordersLoading: boolean
+    ordersLoading: boolean,
+    reloadOrders: ReloadOrders
 }
 
 
@@ -24,6 +25,7 @@ export default function RestaurantOrdersList(props: RestaurantOrdersListProps) {
                 setModalOrderData={props.setModalOrderData}
                 isMobile={(settingsContext && settingsContext.isMobile !== undefined) ? settingsContext.isMobile : false}
                 isSingleOrderView={false}
+                reloadOrders={props.reloadOrders}
             />
         )
     });

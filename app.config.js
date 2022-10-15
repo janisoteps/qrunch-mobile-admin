@@ -5,7 +5,7 @@ export default {
         "owner": "qrunch",
         "name": "qrunch-mobile-admin",
         "slug": "qrunch-mobile-admin",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "orientation": "portrait",
         icon: "./assets/images/logo-icon-1024-72dpi.png",
         scheme: "qrunch-mobile-admin",
@@ -24,7 +24,7 @@ export default {
         "ios": {
             "supportsTablet": true,
             bundleIdentifier: "com.qrunch.qrunch-mobile-admin",
-            buildNumber: "1.0.0"
+            buildNumber: "1.0.1"
         },
         "android": {
             adaptiveIcon: {
@@ -32,7 +32,7 @@ export default {
                 "backgroundColor": "#ffffff",
             },
             package: "com.qrunch.qrunch_mobile_admin",
-            versionCode: 1,
+            versionCode: 2,
             permissions: ["NOTIFICATIONS"],
             useNextNotificationsApi: true,
             googleServicesFile: "./google-services.json",

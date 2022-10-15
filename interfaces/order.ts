@@ -118,7 +118,8 @@ export interface GetRestaurantOrders {
     (
         restaurantId: string,
         authToken: string,
-        showHistory: boolean
+        showHistory: boolean,
+        showLoading?: boolean
     ): Promise<Order[]>
 }
 

@@ -133,6 +133,7 @@ export default function OrdersScreen({route, navigation}: RootTabScreenProps<'Or
                     orderList={orderList}
                     setModalOrderData={setModalOrderData}
                     ordersLoading={ordersLoading}
+                    reloadOrders={reloadOrders}
                 />
 
                 <OrderDetailsModal

@@ -45,11 +45,11 @@ const useRestaurantOrders: UseRestaurantOrders = (
     const [pageCount, setPageCount] = useState<number>(0);
     const [viewOrderHistory, setViewOrderHistory] = useState<boolean>(false);
     const [stateIterator, setStateIterator] = useState<string | null>(null);
-    const [ordersLoading, setOrdersLoading] = useState<boolean>(true);
+    const [ordersLoading, setOrdersLoading] = useState<boolean>(false);
 
     useEffect(() => {
         if (!!authToken && !!restaurantData) {
-            getRestaurantOrders(restaurantData._id, authToken, viewOrderHistory).then(orders => {
+            getRestaurantOrders(restaurantData._id, authToken, viewOrderHistory, true).then(orders => {
                 setOrderList(orders);
                 setPageCount(Math.ceil(orders.length / 10));
                 setStateIterator(`${Math.random()}`);
@@ -57,8 +57,15 @@ const useRestaurantOrders: UseRestaurantOrders = (
         }
     }, [authToken, restaurantData]);
 
-    const getRestaurantOrders: GetRestaurantOrders = async (restaurantId, token, showHistory) => {
-        setOrdersLoading(true);
+    const getRestaurantOrders: GetRestaurantOrders = async (
+        restaurantId,
+        token,
+        showHistory,
+        showLoading = false
+    ) => {
+        if (showLoading) {
+            setOrdersLoading(true);
+        }
         const authHeader: string = `Bearer ${token}`;
         let reqHeaders = baseHeaders;
         reqHeaders['Authorization'] = authHeader;

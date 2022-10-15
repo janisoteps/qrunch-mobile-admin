@@ -1,22 +1,51 @@
-import React from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useTheme} from "@react-navigation/native";
 import {Image, View, Text} from "react-native";
-import {Order} from "../../../interfaces/order";
+import {Order, ReloadOrders} from "../../../interfaces/order";
+import SettingsContext from "../../settings/settingsContext";
+import AuthContext from "../../auth/authContext";
+import checkOrderPaymentStatus from "../../../utils/order/checkOrderPaymentStatus";
 
 interface OrderPaidLabelProps {
     orderDict: Order,
-    backgroundColor: string
+    backgroundColor: string,
+    reloadOrders: ReloadOrders
 }
 
 export default function OrderPaidLabel(props: OrderPaidLabelProps) {
     const { colors } = useTheme();
+    const settingsContext = useContext(SettingsContext);
+    const authContext = useContext(AuthContext);
+    const [paymentNowSuccessful, setPaymentNowSuccessful] = useState(props.orderDict.paymentCompleted && !props.orderDict.orderError);
+
+    useEffect(() => {
+        const authToken: string | null = typeof authContext.authToken === 'string' ? authContext.authToken : null;
+        if (
+            !!props.orderDict
+            && !props.orderDict.paymentCompleted
+            && !props.orderDict.orderError
+            && !!authToken
+        ) {
+            const checkPaymentInterval = setInterval(() => {
+
+                checkOrderPaymentStatus(props.orderDict, authToken).then(checkResult => {
+                    if (checkResult.success && checkResult.statusChanged) {
+                        setPaymentNowSuccessful(true);
+                        props.reloadOrders();
+                    }
+                })
+            }, 10000);
+
+            return () => clearInterval(checkPaymentInterval);
+        }
+    }, [props.orderDict, authContext?.authToken]);
 
     if (props.orderDict.paymentMethod === 'card' || props.orderDict.paymentMethod === 'wallet') {
         const checkImgSrc = require('./../../../assets/images/check.png');
-        const warningImgSrc = require('./../../../assets/images/warning.png')
+        const warningImgSrc = require('./../../../assets/images/warning.png');
 
         const UnpaidExplanation = () => {
-            if (!props.orderDict.paymentCompleted && !props.orderDict.orderError) {
+            if (!props.orderDict.paymentCompleted && !props.orderDict.orderError && !paymentNowSuccessful) {
                 return (
                     <Text
                         style={{
@@ -29,14 +58,14 @@ export default function OrderPaidLabel(props: OrderPaidLabelProps) {
                 )
             } else {
                 return (
-                    <div
+                    <Text
                         style={{
                             textAlign: 'center',
                             color: colors.text
                         }}
                     >
                         {props.orderDict.orderError}
-                    </div>
+                    </Text>
                 )
             }
         }
@@ -51,7 +80,7 @@ export default function OrderPaidLabel(props: OrderPaidLabelProps) {
                     marginRight: 5
                 }}
             >
-                {props.orderDict.paymentCompleted ? (
+                {(props.orderDict.paymentCompleted || paymentNowSuccessful) ? (
                     <View
                         style={{
                             backgroundColor: 'white',

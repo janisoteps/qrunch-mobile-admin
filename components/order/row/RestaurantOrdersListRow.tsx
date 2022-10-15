@@ -1,7 +1,7 @@
 import {Pressable, View} from "react-native";
 import React, {memo, useContext} from "react";
 import SettingsContext from "../../settings/settingsContext";
-import {Order, SetModalOrderData} from "../../../interfaces/order";
+import {Order, ReloadOrders, SetModalOrderData} from "../../../interfaces/order";
 import {locationTypes} from "../../../constants/location";
 import tableIdTypes from "../../../constants/tableIdTypes";
 import {orderNumberTypes} from "../../../constants/orderNumberTypes";
@@ -16,7 +16,8 @@ export interface RestaurantOrdersListRowProps {
     orderDict: Order | null,
     setModalOrderData: SetModalOrderData,
     isMobile: boolean | undefined,
-    isSingleOrderView: boolean
+    isSingleOrderView: boolean,
+    reloadOrders: ReloadOrders
 }
 
 
@@ -99,6 +100,7 @@ const RestaurantOrdersListRow = (props: RestaurantOrdersListRowProps) => {
                         <OrderPaidLabel
                             orderDict={props.orderDict}
                             backgroundColor={backgroundColor}
+                            reloadOrders={props.reloadOrders}
                         />
                     )}
 
@@ -154,6 +156,7 @@ const RestaurantOrdersListRow = (props: RestaurantOrdersListRowProps) => {
                         <OrderPaidLabel
                             orderDict={props.orderDict}
                             backgroundColor={backgroundColor}
+                            reloadOrders={props.reloadOrders}
                         />
                     </View>
                 )}

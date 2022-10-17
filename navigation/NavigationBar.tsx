@@ -1,7 +1,6 @@
 import {Appbar, Menu} from 'react-native-paper';
-import React, {useContext} from "react";
+import React from "react";
 import {View} from "react-native";
-import SettingsContext from "../components/settings/settingsContext";
 import {coloursConstants} from "../constants/colours";
 
 interface CustomNavigationBarProps {

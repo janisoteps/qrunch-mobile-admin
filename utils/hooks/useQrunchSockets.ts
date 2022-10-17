@@ -25,7 +25,9 @@ export default function useQrunchSockets(
 
             socket.emit('join_restaurant', restaurantId);
 
-            socket.on('new_order', reloadOrders);
+            socket.on('new_order', (orderEvent) => {
+                reloadOrders(orderEvent);
+            });
             socket.on('payment_completed', reloadOrders);
             socket.on('payment_status_update', reloadOrders);
             socket.on('new_order_status', reloadOrders);

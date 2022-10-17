@@ -13,7 +13,6 @@ import axios from "axios";
 import updateOneOrderProperty from "../order/updateOneOrderProperty";
 import {QrunchUser} from "../../interfaces/qrunchUser";
 import filterUserOrders from "../order/filterUserOrders";
-import checkUserLocation from "../user/checkUserLocation";
 
 export interface UseRestaurantOrders {
     (
@@ -119,14 +118,12 @@ const useRestaurantOrders: UseRestaurantOrders = (
     }
 
     const loadNewOrder: LoadNewOrder = orderEventDict => {
-        if (orderEventDict && orderEventDict.constructor === Object && restaurantData && authToken) {
-            if (checkUserLocation(userData, orderEventDict.location)) {
-                getRestaurantOrders(restaurantData._id, authToken, viewOrderHistory).then(orders => {
-                    setOrderList(orders);
-                    setPageCount(Math.ceil(orders.length / 10));
-                    setStateIterator(`${Math.random()}`);
-                });
-            }
+        if (restaurantData && authToken) {
+            getRestaurantOrders(restaurantData._id, authToken, viewOrderHistory).then(orders => {
+                setOrderList(orders);
+                setPageCount(Math.ceil(orders.length / 10));
+                setStateIterator(`${Math.random()}`);
+            });
         }
     }
 

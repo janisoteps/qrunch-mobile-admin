@@ -10,7 +10,6 @@ import AuthContext from '../components/auth/authContext';
 import SettingsContext from '../components/settings/settingsContext';
 import useNotifications from "../utils/hooks/useNotifications";
 import NotifContext from '../components/notifications/notifContext';
-import LocationPickScreen from "../screens/LocationPickScreen";
 import OrdersScreen from "../screens/OrdersScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import ServicesScreen from "../screens/ServicesScreens";

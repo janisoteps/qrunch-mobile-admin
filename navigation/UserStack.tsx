@@ -30,12 +30,20 @@ export default function UserStack({authProps, settings}: UserStackProps) {
 
     const {
         initialRoute,
-        reValidatePushToken
+        reValidatePushToken,
+        lastOrderId,
+        lastServiceReqId,
+        newOrdersChecked,
+        showNewOrder,
+        setShowNewOrder,
+        showNewServiceReq,
+        setShowNewServiceReq
     } = useNotifications(
         navigation,
         authProps.authToken,
         settings.userData,
         settings.usedRestaurantId,
+        settings.restaurantData
     );
 
     return (
@@ -47,7 +55,14 @@ export default function UserStack({authProps, settings}: UserStackProps) {
             >
                 <NotifContext.Provider
                     value={{
-                        reValidatePushToken
+                        reValidatePushToken,
+                        lastOrderId,
+                        lastServiceReqId,
+                        newOrdersChecked,
+                        showNewOrder,
+                        setShowNewOrder,
+                        showNewServiceReq,
+                        setShowNewServiceReq
                     }}
                 >
                     <Stack.Navigator

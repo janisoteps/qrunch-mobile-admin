@@ -1,4 +1,4 @@
-import {LocationDict} from "./appSettings";
+import {LocationDict, LocationId} from "./appSettings";
 import {OrderState} from "../constants/order";
 import {OrderItem} from "./item";
 import {Campaign} from "./campaign";
@@ -154,4 +154,15 @@ export interface UpdateOrderList {
 
 export interface ToggleOrderHistory {
     (newValue: boolean): void
+}
+
+export interface LocationOrderCount {
+    _id: string,
+    locationId: LocationId,
+    restaurantId: string,
+    orderCount: number,
+    lastTenOrders: Array<string>,
+    lastUpdated: Date
+    serviceRequestCount?: number,
+    lastTenServiceRequests?: Array<string>
 }

@@ -59,8 +59,6 @@ const checkNewOrders: CheckNewOrders = async (authToken, userData, restaurantDat
             : null;
 
         if (!!requestUrl) {
-            // console.log('checkNewOrders requestUrl')
-            // console.log(requestUrl)
             const locationIds = (Array.isArray(restaurantData.locations)) ? restaurantData.locations.map(locationDict => {
                 return locationDict.locationId
             }) : [];
@@ -77,8 +75,6 @@ const checkNewOrders: CheckNewOrders = async (authToken, userData, restaurantDat
                             headers: reqHeaders
                         }
                     );
-                    // console.log('countsRes.data')
-                    // console.log(countsRes.data)
                     if (countsRes.data.success) {
                         return countsRes.data.locationCounts
                     } else {
@@ -90,8 +86,6 @@ const checkNewOrders: CheckNewOrders = async (authToken, userData, restaurantDat
             });
 
             const countsResponses = await Promise.all(countsResPromises);
-            // console.log('countsResponses')
-            // console.log(countsResponses)
             const filteredResponses = countsResponses.filter(locationCountsDict => {
                 return !!locationCountsDict
             });

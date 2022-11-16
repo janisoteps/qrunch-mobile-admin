@@ -11,6 +11,7 @@ import OrderTotal from "./OrderTotal";
 import OrderPaidLabel from "./OrderPaidLabel";
 import OrderNumber from "./OrderNumber";
 import MoreInformation from "./MoreInformation";
+import NotifContext from "../../notifications/notifContext";
 
 export interface RestaurantOrdersListRowProps {
     orderDict: Order | null,
@@ -23,6 +24,7 @@ export interface RestaurantOrdersListRowProps {
 
 const RestaurantOrdersListRow = (props: RestaurantOrdersListRowProps) => {
     const settingsContext = useContext(SettingsContext);
+    const notifContext = useContext(NotifContext);
 
     if (props.orderDict) {
         const locationType = 'locationType' in props.orderDict
@@ -67,6 +69,9 @@ const RestaurantOrdersListRow = (props: RestaurantOrdersListRowProps) => {
                     width: '100%'
                 }}
                 onPress={() => {
+                    if (notifContext.setShowNewOrder) {
+                        notifContext.setShowNewOrder(false);
+                    }
                     props.setModalOrderData(props.orderDict);
                 }}
             >

@@ -19,24 +19,14 @@ export default function OrdersScreen({route, navigation}: RootTabScreenProps<'Or
     const authContext = useContext(AuthContext);
     const settingsContext = useContext(SettingsContext);
     const {
-        getRestaurantOrders,
         loadNewOrder,
         reloadOrders,
-        updateOrderState,
         updateOrderProperty,
         orderList,
-        updateOrderList,
-        pageCount,
-        viewOrderHistory,
-        toggleOrderHistory,
-        stateIterator,
         ordersLoading
     } = useRestaurantOrders(authContext.authToken, settingsContext.restaurantData, settingsContext.userData);
 
     const {
-        newOrders,
-        setNewOrders,
-        sendConfirm,
         socketsUpdateEta,
         socketsUpdateStatus
     } = useQrunchSockets({

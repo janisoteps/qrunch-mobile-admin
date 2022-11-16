@@ -7,6 +7,7 @@ import ServiceRequestedTime from "./request/ServiceRequestedTime";
 import RequestState from "./request/RequestState";
 import React, {useContext} from "react";
 import SettingsContext from "../settings/settingsContext";
+import NotifContext from "../notifications/notifContext";
 
 interface ServiceRequestListRowProps {
     serviceOrder: ServiceOrder,
@@ -18,6 +19,7 @@ export default function ServiceRequestListRow(
     {serviceOrder, setModalServiceRequestData}: ServiceRequestListRowProps
 ) {
     const settingsContext = useContext(SettingsContext);
+    const notifContext = useContext(NotifContext);
 
     return (
         <TouchableOpacity
@@ -35,6 +37,9 @@ export default function ServiceRequestListRow(
                 justifyContent: 'space-between',
             }}
             onPress={() => {
+                if (notifContext.setShowNewServiceReq) {
+                    notifContext.setShowNewServiceReq(false);
+                }
                 setModalServiceRequestData(serviceOrder);
             }}
         >

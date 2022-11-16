@@ -1,7 +1,9 @@
 import {Appbar, Menu} from 'react-native-paper';
-import React from "react";
-import {View} from "react-native";
+import React, {useContext} from "react";
+import {Pressable, Text, View} from "react-native";
 import {coloursConstants} from "../constants/colours";
+import NotifContext from "../components/notifications/notifContext";
+import {colors} from "react-native-elements";
 
 interface CustomNavigationBarProps {
     navigation: any,
@@ -14,6 +16,7 @@ interface CustomNavigationBarProps {
 export default function NavigationBar(
     {navigation, back, options, route}: CustomNavigationBarProps
 ) {
+    const notifContext = useContext(NotifContext);
     const [visible, setVisible] = React.useState(false);
     const openMenu = () => setVisible(true);
     const closeMenu = () => setVisible(false);
@@ -24,12 +27,66 @@ export default function NavigationBar(
     return (
         <Appbar.Header
             style={{
-                backgroundColor: coloursConstants.cardBackgroundColorLight.hex
+                backgroundColor: (notifContext.showNewOrder || notifContext.showNewServiceReq)
+                    ? '#f69292' : coloursConstants.cardBackgroundColorLight.hex
             }}
         >
             {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
 
-            <Appbar.Content title={routeTitle} />
+            {(notifContext.showNewOrder || notifContext.showNewServiceReq) ? (
+                <Appbar.Content title={<View>
+                    {notifContext.showNewOrder && (
+                        <Pressable
+                            onPress={() => {
+                                if (!!notifContext.setShowNewOrder) {
+                                    notifContext.setShowNewOrder(false);
+                                }
+                                setTimeout(() => {
+                                    navigation.navigate('Orders', {
+                                        checkToken: false
+                                    });
+                                },300);
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    color: colors.error,
+                                    textAlign: 'center',
+                                    fontSize: 20
+                                }}
+                            >
+                                New order
+                            </Text>
+                        </Pressable>
+                    )}
+                    {notifContext.showNewServiceReq && (
+                        <Pressable
+                            onPress={() => {
+                                if (!!notifContext.setShowNewServiceReq) {
+                                    notifContext.setShowNewServiceReq(false);
+                                }
+                                setTimeout(() => {
+                                    navigation.navigate('Services', {
+                                        checkToken: false
+                                    });
+                                },300);
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    color: colors.error,
+                                    textAlign: 'center',
+                                    fontSize: 20
+                                }}
+                            >
+                                New service request
+                            </Text>
+                        </Pressable>
+                    )}
+                </View>} />
+            ):(
+                <Appbar.Content title={routeTitle} />
+            )}
 
             <View
                 style={{

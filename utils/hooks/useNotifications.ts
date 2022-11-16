@@ -1,10 +1,16 @@
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
+import { Audio } from 'expo-av';
 import * as Notifications from 'expo-notifications';
 import {QrunchUser} from "../../interfaces/qrunchUser";
 import getPushToken from "../../components/notifications/getPushToken";
 import {ReValidatePushToken} from "../../interfaces/notifications";
 import validatePushTokens from "../../components/notifications/validatePushTokens";
 import {ScreenTypesList} from "../../interfaces/general";
+import {RestaurantSettings} from "../../interfaces/appSettings";
+import {LocationOrderCount} from "../../interfaces/order";
+import checkNewOrders from "../../components/notifications/checkNewOrders";
+import getOrderData from "../order/getOrderData";
+import loadOneServiceOrder from "../services/loadOneServiceOrder";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -20,9 +26,17 @@ export interface UseNotifications {
         authToken: string | null,
         userData: QrunchUser | null | undefined,
         usedRestaurantId: string | null | undefined,
+        restaurantData: RestaurantSettings | null | undefined
     ): {
         initialRoute: ScreenTypesList,
-        reValidatePushToken: ReValidatePushToken
+        reValidatePushToken: ReValidatePushToken,
+        lastOrderId: string,
+        lastServiceReqId: string,
+        newOrdersChecked: boolean,
+        showNewOrder: boolean,
+        setShowNewOrder: React.Dispatch<boolean>,
+        showNewServiceReq: boolean,
+        setShowNewServiceReq: React.Dispatch<boolean>
     }
 }
 
@@ -32,6 +46,7 @@ const useNotifications: UseNotifications = (
     authToken,
     userData,
     usedRestaurantId,
+    restaurantData
 ) => {
     const [expoPushToken, setExpoPushToken] = useState<string | null | undefined>(null);
     const [notification, setNotification] = useState<Notifications.Notification>();
@@ -39,6 +54,12 @@ const useNotifications: UseNotifications = (
     const [initialRoute, setInitialRoute] = useState<ScreenTypesList>('Home');
     const notificationListener = useRef<any>();
     const responseListener = useRef<any>();
+    const [locationCounts, setLocationCounts] = useState<LocationOrderCount[]>([]);
+    const [lastOrderId, setLastOrderId] = useState<string>('');
+    const [showNewOrder, setShowNewOrder] = useState<boolean>(false);
+    const [lastServiceReqId, setLastServiceReqId] = useState<string>('');
+    const [showNewServiceReq, setShowNewServiceReq] = useState<boolean>(false);
+    const [newOrdersChecked, setNewOrdersChecked] = useState<boolean>(false);
 
     useEffect(() => {
         notificationListener.current = Notifications.addNotificationReceivedListener(notificationDict => {
@@ -102,6 +123,30 @@ const useNotifications: UseNotifications = (
         }
     },[expoPushToken, userData, usedRestaurantId]);
 
+    useEffect(() => {
+        if (!!userData && !!restaurantData && !!authToken) {
+            const checkOrdersInterval = setInterval(() => {
+                compareLatestOrders();
+            }, 30000);
+            return () => clearInterval(checkOrdersInterval);
+        }
+    }, [userData, restaurantData, authToken]);
+
+    useEffect(() => {
+        if (!!lastOrderId || !!lastServiceReqId) {
+            if (newOrdersChecked) {
+                if (!!lastOrderId) {
+                    handleNewOrder(lastOrderId);
+                }
+                if (!!lastServiceReqId) {
+                    handleNewServiceRequest(lastServiceReqId);
+                }
+            } else {
+                setNewOrdersChecked(true);
+            }
+        }
+    }, [lastOrderId, lastServiceReqId]);
+
     const reValidatePushToken: ReValidatePushToken = (
         user,
         accessToken,
@@ -137,9 +182,103 @@ const useNotifications: UseNotifications = (
         }
     }
 
+    function compareLatestOrders() {
+        if (!!authToken && !!userData && !!restaurantData) {
+            checkNewOrders(authToken, userData, restaurantData).then(checkResult => {
+
+                if (checkResult.success) {
+                    let isNewOrders = false;
+                    let isNewServiceReqs = false;
+
+                    checkResult.counts.forEach(orderCount => {
+                        const currentLocationCountDict = locationCounts.find(orderCountDict => {
+                            return orderCountDict.locationId === orderCount.locationId
+                        });
+
+                        const newLastOrderId = (
+                            !!orderCount.lastTenOrders
+                            && Array.isArray(orderCount.lastTenOrders)
+                            && orderCount.lastTenOrders.length > 0
+                        ) ? orderCount.lastTenOrders[orderCount.lastTenOrders.length - 1] : '';
+
+                        const currentLastOrderId = (
+                            !!currentLocationCountDict && !!currentLocationCountDict?.lastTenOrders
+                            && Array.isArray(currentLocationCountDict.lastTenOrders)
+                            && currentLocationCountDict.lastTenOrders.length > 0
+                        ) ? currentLocationCountDict.lastTenOrders[currentLocationCountDict.lastTenOrders.length - 1] : '';
+
+                        const newLastServiceReqId = (
+                            !!orderCount.lastTenServiceRequests
+                            && Array.isArray(orderCount.lastTenServiceRequests)
+                            && orderCount.lastTenServiceRequests.length > 0
+                        ) ? orderCount.lastTenServiceRequests[orderCount.lastTenServiceRequests.length - 1] : '';
+
+                        const currentLastServiceReqId = (
+                            !!currentLocationCountDict && !!currentLocationCountDict.lastTenServiceRequests
+                            && Array.isArray(currentLocationCountDict.lastTenServiceRequests)
+                            && currentLocationCountDict.lastTenServiceRequests.length > 0
+                        ) ? currentLocationCountDict.lastTenServiceRequests[currentLocationCountDict.lastTenServiceRequests.length - 1] : '';
+
+                        if (newLastOrderId !== currentLastOrderId) {
+                            isNewOrders = true;
+                            setLastOrderId(newLastOrderId);
+                        }
+                        if (newLastServiceReqId !== currentLastServiceReqId) {
+                            isNewServiceReqs = true;
+                            setLastServiceReqId(newLastServiceReqId);
+                        }
+                    });
+
+                    if (isNewOrders || isNewServiceReqs) {
+                        setLocationCounts(checkResult.counts);
+                    }
+                }
+            });
+        }
+    }
+
+    function handleNewOrder(orderId: string) {
+        getOrderData(orderId).then(orderLoadResult => {
+            if (orderLoadResult?.orderData) {
+                if (orderLoadResult.orderData?.orderState === 'pending') {
+                    playSound('cash');
+                    setShowNewOrder(true);
+                }
+            }
+        });
+    }
+
+    function handleNewServiceRequest(serviceReqId: string) {
+        loadOneServiceOrder(serviceReqId).then(loadResult => {
+            if (loadResult.success) {
+                if (loadResult.serviceOrder?.orderState === 'pending') {
+                    playSound('bell');
+                    setShowNewServiceReq(true);
+                }
+            }
+        });
+    }
+
+    async function playSound(soundType: 'cash' | 'bell') {
+        const soundUrl = soundType === 'cash'
+            ? 'https://qr-assets.s3.eu-central-1.amazonaws.com/sounds/cash_register.mp3'
+            : 'https://qr-assets.s3.eu-central-1.amazonaws.com/sounds/bell.mp3';
+
+        const { sound } = await Audio.Sound.createAsync({uri: soundUrl});
+
+        await sound.playAsync();
+    }
+
     return {
         initialRoute,
-        reValidatePushToken
+        reValidatePushToken,
+        lastOrderId,
+        lastServiceReqId,
+        newOrdersChecked,
+        showNewOrder,
+        setShowNewOrder,
+        showNewServiceReq,
+        setShowNewServiceReq
     }
 };
 

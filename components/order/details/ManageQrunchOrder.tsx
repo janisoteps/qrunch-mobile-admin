@@ -69,6 +69,7 @@ export default function ManageQrunchOrder(props: ManageQrunchOrderProps) {
                         setModalOrderData={() => {}}
                         isMobile={props.isMobile}
                         isSingleOrderView={true}
+                        reloadOrders={props.reloadOrders}
                     />
 
                     <MoreActions

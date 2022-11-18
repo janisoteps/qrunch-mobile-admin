@@ -60,6 +60,8 @@ const useNotifications: UseNotifications = (
     const [lastServiceReqId, setLastServiceReqId] = useState<string>('');
     const [showNewServiceReq, setShowNewServiceReq] = useState<boolean>(false);
     const [newOrdersChecked, setNewOrdersChecked] = useState<boolean>(false);
+    const [playingBeep, setPlayingBeep] = useState<boolean>(false);
+    const [stateRefreshId, setStateRefreshId] = useState<string>('');
 
     useEffect(() => {
         notificationListener.current = Notifications.addNotificationReceivedListener(notificationDict => {
@@ -127,10 +129,28 @@ const useNotifications: UseNotifications = (
         if (!!userData && !!restaurantData && !!authToken) {
             const checkOrdersInterval = setInterval(() => {
                 compareLatestOrders();
-            }, 30000);
+            }, 10000);
             return () => clearInterval(checkOrdersInterval);
         }
     }, [userData, restaurantData, authToken]);
+
+    useEffect(() => {
+        const checkSoundInterval = setInterval(() => {
+            if (showNewOrder || showNewServiceReq) {
+                setPlayingBeep(true);
+            }
+            setStateRefreshId(`${Math.random()}`);
+        }, 10000);
+        return () => clearInterval(checkSoundInterval);
+    }, [showNewOrder, showNewServiceReq]);
+
+    useEffect(() => {
+        if (playingBeep) {
+            playSound('beep').then(() => {
+                setPlayingBeep(false);
+            });
+        }
+    }, [playingBeep]);
 
     useEffect(() => {
         if (!!lastOrderId || !!lastServiceReqId) {
@@ -219,6 +239,8 @@ const useNotifications: UseNotifications = (
                             && currentLocationCountDict.lastTenServiceRequests.length > 0
                         ) ? currentLocationCountDict.lastTenServiceRequests[currentLocationCountDict.lastTenServiceRequests.length - 1] : '';
 
+                        setNewOrdersChecked(true);
+
                         if (newLastOrderId !== currentLastOrderId) {
                             isNewOrders = true;
                             setLastOrderId(newLastOrderId);
@@ -259,10 +281,26 @@ const useNotifications: UseNotifications = (
         });
     }
 
-    async function playSound(soundType: 'cash' | 'bell') {
-        const soundUrl = soundType === 'cash'
-            ? 'https://qr-assets.s3.eu-central-1.amazonaws.com/sounds/cash_register.mp3'
-            : 'https://qr-assets.s3.eu-central-1.amazonaws.com/sounds/bell.mp3';
+    async function playSound(soundType: 'cash' | 'bell' | 'beep') {
+        let soundUrl: string;
+
+        switch (soundType) {
+            case 'cash':
+                soundUrl = 'https://qr-assets.s3.eu-central-1.amazonaws.com/sounds/cash_register.mp3';
+                break;
+
+            case 'bell':
+                soundUrl = 'https://qr-assets.s3.eu-central-1.amazonaws.com/sounds/bell.mp3';
+                break;
+
+            case 'beep':
+                soundUrl = 'https://qr-assets.s3.eu-central-1.amazonaws.com/sounds/short_bleep.mp3';
+                break;
+
+            default:
+                soundUrl = 'https://qr-assets.s3.eu-central-1.amazonaws.com/sounds/beep.mp3';
+                break;
+        }
 
         const { sound } = await Audio.Sound.createAsync({uri: soundUrl});
 

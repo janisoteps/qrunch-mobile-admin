@@ -21,6 +21,7 @@ export type RootTabParamList = {
     Onboarding: undefined;
     LocationPick: undefined;
     Services: undefined;
+    MenuEdit: undefined
 };
 
 export type RootStackParamList = {
@@ -36,9 +37,10 @@ export type RootStackParamList = {
     Onboarding: undefined;
     LocationPick: undefined;
     Services: undefined;
+    MenuEdit: undefined;
 };
 
-export type ScreenTypesList = "Root" | "Modal" | "NotFound" | "Auth" | "LogOut" | "Home" | "Orders" | "Settings" | "RelatePosItems" | "Onboarding" | "LocationPick" | "Services";
+export type ScreenTypesList = "Root" | "Modal" | "NotFound" | "Auth" | "LogOut" | "Home" | "Orders" | "Settings" | "RelatePosItems" | "Onboarding" | "LocationPick" | "Services" | "MenuEdit";
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
     BottomTabScreenProps<RootTabParamList, Screen>,

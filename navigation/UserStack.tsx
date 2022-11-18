@@ -13,6 +13,7 @@ import NotifContext from '../components/notifications/notifContext';
 import OrdersScreen from "../screens/OrdersScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import ServicesScreen from "../screens/ServicesScreens";
+import MenuEditScreen from "../screens/MenuEditScreen";
 
 interface UserStackProps {
     authProps: {
@@ -84,6 +85,11 @@ export default function UserStack({authProps, settings}: UserStackProps) {
                             options={{headerShown: true, title: 'Service Requests'}}
                         />
                         <Stack.Screen name="Settings" component={SettingsScreen} options={{headerShown: true}} />
+                        <Stack.Screen
+                            name="MenuEdit"
+                            component={MenuEditScreen}
+                            options={{headerShown: true, title: 'Edit Menu'}}
+                        />
                     </Stack.Navigator>
                 </NotifContext.Provider>
             </SettingsContext.Provider>

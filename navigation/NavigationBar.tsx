@@ -112,7 +112,8 @@ export default function NavigationBar(
                             }}
                             size={30}
                         />
-                    }>
+                    }
+                >
                     <Menu.Item
                         onPress={() => {
                             closeMenu();
@@ -125,6 +126,7 @@ export default function NavigationBar(
                         title="Home"
                         icon={'home'}
                     />
+
                     <Menu.Item
                         onPress={() => {
                             closeMenu();
@@ -135,6 +137,7 @@ export default function NavigationBar(
                         title="Orders"
                         icon={'shopping'}
                     />
+
                     <Menu.Item
                         onPress={() => {
                             closeMenu();
@@ -145,6 +148,18 @@ export default function NavigationBar(
                         title="Services"
                         icon={'room-service'}
                     />
+
+                    <Menu.Item
+                        onPress={() => {
+                            closeMenu();
+                            setTimeout(() => {
+                                navigation.navigate('MenuEdit');
+                            },300);
+                        }}
+                        title="Edit Menu"
+                        icon={'book-open-outline'}
+                    />
+
                     <Menu.Item
                         onPress={() => {
                             closeMenu();
@@ -155,6 +170,7 @@ export default function NavigationBar(
                         title="Settings"
                         icon={'cog'}
                     />
+
                     <Menu.Item
                         onPress={() => {
                             closeMenu();
